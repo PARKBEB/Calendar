@@ -1,0 +1,17 @@
+* {
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+}
+
+.d_day_popup {
+    display: none;
+}
+
+.d_day_btn_mod {
+    display: none;
+}
+
+.d_day_btn_del {
+    display: none;
+}
