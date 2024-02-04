@@ -36,10 +36,14 @@ function d_insert_ok() {
     } else if (differenceInDays == 0) {
         d_day.innerText = d_day_text + "🎊D-DAY!🎊";
         d_day_popup.style.display = "none";
+        d_day_btn_mod.style.display = "block"
+        d_day_btn_del.style.display = "block"
     } else if (differenceInDays < 0) {
         differenceInDays = -differenceInDays;
         d_day.innerText = d_day_text + " " + "D+" + differenceInDays + "\n 날짜가 지났습니다.";
-        d_day_popup.style.display = "block";
+        d_day_popup.style.display = "none";
+        d_day_btn_mod.style.display = "block";
+        d_day_btn_del.style.display = "block";
     } else {
         d_day.innerText = d_day_text + " " + "D-" + differenceInDays;
         d_day_popup.style.display = "none";
@@ -61,6 +65,7 @@ function d_insert_cancel() {
 }
 
 function d_modify() {
+    d_day.innerText = "";
     d_day_popup.style.display = "block";
     d_day_btn_mod.style.display = "none";
     d_day_btn_del.style.display = "none";
