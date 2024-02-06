@@ -15,3 +15,46 @@
 .d_day_btn_del {
     display: none;
 }
+
+.cal_main {
+    width: 800px;
+}
+
+.day {
+    width: calc(100% / 7);
+}
+
+.date {
+    width: calc(100% / 7);
+}
+
+.days {
+    display: flex;
+    flex-direction: row;
+}
+
+.dates {
+   display: flex;
+   flex-flow: row wrap;
+}
+
+/* 배수로 선택하기: 7의 배수중 첫번 째 */
+.day:nth-child(7n + 1),
+.date:nth-child(7n + 1) {
+    color: red;
+}
+
+.day:nth-child(7n),
+.date:nth-child(7n) {
+    color: blue;
+}
+
+.current-date {
+    color: orange;
+    font-weight: 900;
+
+}
+
+.other {
+    opacity: 0.5;
+}

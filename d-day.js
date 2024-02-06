@@ -23,8 +23,16 @@ function d_insert_ok() {
     d_day_text = document.querySelector('.d_day_text').value; // input태그는 value로 값을 가져옴
     d_day_date = document.querySelector('.d_day_date').value;
     let date_insert = new Date(d_day_date);
+    
+    // date_insert가 Tue Feb 06 2024 17:36:07 GMT+0900 (한국 표준시) 시간이 9시로 고정되서 표현되서 아래 써줘여함
+    date_insert.setHours(today.getHours());
+    date_insert.setMinutes(today.getMinutes());
+    date_insert.setSeconds(today.getSeconds());
+    date_insert.setMilliseconds(today.getMilliseconds());
 
-    let differenceInDays = (Math.floor((date_insert - today)/ (24 * 60 * 60 * 1000))) + 1;
+    let differenceInDays = Math.floor((date_insert - today) / (24 * 60 * 60 * 1000));
+    console.log(date_insert);
+    console.log(today);
 
     if (d_day_text === "") {
         alert("목표를 입력해주세요");
