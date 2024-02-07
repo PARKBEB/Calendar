@@ -1,6 +1,7 @@
 let date = new Date();
 
 function renderCalendar() {
+    
     const viewYear = date.getFullYear();
     const viewMonth = date.getMonth();
 
@@ -32,7 +33,6 @@ function renderCalendar() {
     // i를 배열에 추가하는 이유는 담달은 무조건 1일부터 ++ 되기떄문에 
     for (let i = 1; i < 7 - TLDay; i++) {
         nextDates.push(i);
-        console.log(nextDates)
     }
 
     let dates = preDates.concat(thisDates, nextDates);
@@ -54,21 +54,35 @@ function renderCalendar() {
     const today = new Date();
 
     // today 날짜 색깔 표시
-    let todays = document.querySelectorAll('.date');
+    let curDays = document.querySelectorAll('.date');
 
-    todays.forEach(function(date, i) {
-        todays[i] = date.innerText;
+    curDays.forEach(function(date, i) {
+        curDays[i] = date.innerText;
     });
 
     if (viewMonth === today.getMonth() && viewYear === today.getFullYear()) {
         for (let i = 0; i < dates.length; i++) {
-            if (parseInt(todays[i].innerText) === today.getDate()) {
-                todays[i].classList.add('current-date');
+            if (parseInt(curDays[i].innerText) === today.getDate()) {
+                curDays[i].classList.add('current-date');
 
                 break;
             }
         }
     } 
+
+    // d-day 표시
+    // let dDate = document.querySelector('.d_day_date').value;
+    // console.log(dDate);
+    // let dDate2 = new Date(dDate).getDate();
+    // console.log(dDate2);
+
+    // for (let i = 0; i < dates.length; i++) {
+    //     if (parseInt(curDays[i].innerText) === dDate2) {
+    //         curDays[i].classList.add('.d_day_date2');
+
+    //         break;
+    //     }
+    // }
 }
 
 renderCalendar();
@@ -87,3 +101,5 @@ function calToDay() {
     date = new Date();
     renderCalendar();
 }
+
+

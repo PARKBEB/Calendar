@@ -15,7 +15,6 @@ function d_insert() {
     document.querySelector('.d_day_text').value = "";
     document.querySelector('.d_day_date').value = "";
 }
-console.log(new Date());
 
 function d_insert_ok() {
     d_day_btn.style.display = "none";
@@ -31,8 +30,6 @@ function d_insert_ok() {
     date_insert.setMilliseconds(today.getMilliseconds());
 
     let differenceInDays = Math.floor((date_insert - today) / (24 * 60 * 60 * 1000));
-    console.log(date_insert);
-    console.log(today);
 
     if (d_day_text === "") {
         alert("목표를 입력해주세요");

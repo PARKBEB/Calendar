@@ -16,16 +16,23 @@
     display: none;
 }
 
-.cal_main {
-    width: 800px;
+.cal_nav {
+    display: flex;
+    margin: 2%;
+}
+
+.cal_today_btn {
+    margin-left: 2%;
 }
 
 .day {
     width: calc(100% / 7);
+    border: 1px solid rgb(78, 75, 75);
 }
 
 .date {
     width: calc(100% / 7);
+    border: 1px solid rgb(78, 75, 75);
 }
 
 .days {
@@ -56,5 +63,9 @@
 }
 
 .other {
-    opacity: 0.5;
+    opacity: 0.3;
+}
+
+.d_day_date2 {
+    color: green;
 }
