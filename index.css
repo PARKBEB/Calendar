@@ -33,6 +33,9 @@
 .date {
     width: calc(100% / 7);
     border: 1px solid rgb(78, 75, 75);
+    position: relative;
+    display: flex;
+    flex-direction: row;
 }
 
 .days {
@@ -68,4 +71,16 @@
 
 .d_day_date2 {
     color: green;
+}
+
+.cal_content {
+    display: flex;
+    flex-direction: row;
+}
+
+.to_do {
+    display: none;
+    width: 100%;
+    height: 200px;
+    background-color: red;
 }

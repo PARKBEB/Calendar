@@ -31,17 +31,28 @@
         <button onclick="calNext()" class="cal_next_btn">▶</button>
         <button onclick="calToDay()" class="cal_today_btn">TODAY</button>
     </div>
-    <div class="cal_main">
-        <div class="days">
-            <div class="day">일</div>
-            <div class="day">월</div>
-            <div class="day">화</div>
-            <div class="day">수</div>
-            <div class="day">목</div>
-            <div class="day">금</div>
-            <div class="day">토</div>
+    <div class="cal_content">
+        <div class="cal_main">
+            <div class="days">
+                <div class="day">일</div>
+                <div class="day">월</div>
+                <div class="day">화</div>
+                <div class="day">수</div>
+                <div class="day">목</div>
+                <div class="day">금</div>
+                <div class="day">토</div>
+            </div>    
+            <div class="dates"></div>
         </div>
-        <div class="dates"></div>
+        <div class="to_do">
+            <div class="to_do_title">TO DO LIST 입니당</div>
+            <div class="result"></div>
+            <div class="to_do_text">
+                <input type="text" class="addValue" placeholder="할 일 추가하기">
+            </div>
+            <button class="plus_btn" onclick="plus()">➕</button>
+            <button class="minus_btn" onclick="minus()">➖</button>
+        </div>
     </div>
     <script src="./d-day.js"></script>
     <script src="./calendar.js"></script>

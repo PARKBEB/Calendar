@@ -58,6 +58,7 @@ function renderCalendar() {
 
     curDays.forEach(function(date, i) {
         curDays[i] = date.innerText;
+
     });
 
     if (viewMonth === today.getMonth() && viewYear === today.getFullYear()) {
@@ -102,4 +103,32 @@ function calToDay() {
     renderCalendar();
 }
 
+// 이벤트 리스너를 각 .date 요소에 추가
+let toDoDate = document.querySelectorAll('.date');
+toDoDate.forEach(function(date) {
+    date.addEventListener('click', toDO);
+    console.log("이것입니당2"+date);
+});
 
+// document.querySelector('.date').innerHTML = '<div class="todo"></div>';
+
+// 클릭된 요소의 색상을 변경하는 toDO 함수
+function toDO() {
+    // 실패-아래 주석대로 하면  date안에 네모 생김
+        // let newTodo = document.createElement('div');
+        // newTodo.classList.add('todo');
+        // event.currentTarget.appendChild(newTodo);
+        // event.currentTarget.querySelector('.todo').style.display = "block";
+    
+    let toDo = document.querySelector('.to_do');
+    toDo.style.display = "block";
+}
+
+let text = document.querySelector(".addValue");
+let result = document.querySelector(".result");
+
+function plus() {
+    let list = document.createElement("p");
+    list.innerHTML = text.value;
+    result.appendChild(list); // 추가된 할일에 할일 리스트 추가하기 
+}
