@@ -81,20 +81,6 @@ function renderCalendar() {
             }
         }
     } 
-
-    // d-day 표시
-    // let dDate = document.querySelector('.d_day_date').value;
-    // console.log(dDate);
-    // let dDate2 = new Date(dDate).getDate();
-    // console.log(dDate2);
-
-    // for (let i = 0; i < dates.length; i++) {
-    //     if (parseInt(curDays[i].innerText) === dDate2) {
-    //         curDays[i].classList.add('.d_day_date2');
-
-    //         break;
-    //     }
-    // }
 }
 
 renderCalendar();
@@ -120,8 +106,8 @@ let taskElements = taskList.getElementsByTagName("p");
 
 // 이벤트 핸들러가 등록되는 시점은 JavaScript 코드에서 해당 이벤트 리스너가 추가되는 시점, 이 때 주로 이벤트 리스너를 추가하는 함수가 호출되는 시점이 됨. 만약 페이지가 로드될 때 존재하지 않는 요소에 이벤트를 추가하려면, 일반적으로 이벤트 리스너를 추가하는 JavaScript 코드가 해당 요소를 생성한 직후에 위치하도록 해야 함. 이렇게 함으로써 요소가 생성되고 이벤트가 바로 추가되므로 요소가 존재하지 않는 문제를 방지할 수 있음.
 function createDeleteButton() {
-    let delButton = document.createElement('button');
-    delButton.innerHTML = "X";
+    let delButton = document.createElement('span');
+    delButton.innerHTML = "❌";
     delButton.classList.add('del_btn');
 
     // 삭제 버튼에 이벤트 리스너 추가
@@ -132,6 +118,18 @@ function createDeleteButton() {
     return delButton;
 }
 
+function createClearButton() {
+    let task = document.createElement("p");
+    task.innerHTML = addValueInput.value;
+    task.classList.add('task');
+
+    task.addEventListener('click', function() {
+        task.style = "color: gray; text-decoration: line-through;"
+    })
+
+    return task;
+}
+
 // 삭제 경우에는 이벤트 핸들러가 등록되는 시점에서 해당 요소가 존재하지 않을 때 
 function addTask() {
     if (addValueInput.value === "") {
@@ -140,10 +138,9 @@ function addTask() {
         let container = document.createElement("div");
         container.classList.add('container');
 
-        let list = document.createElement("p");
-        list.innerHTML = addValueInput.value;
-
-        container.appendChild(list); // 추가된 할일에 할일 리스트 추가하기 
+        let task = createClearButton();
+        container.appendChild(task); // 추가된 할일에 할일 리스트 추가하기 
+        
         let delButton = createDeleteButton(); // 삭제 버튼 생성
         container.appendChild(delButton); // 삭제 버튼을 container에 추가
 
