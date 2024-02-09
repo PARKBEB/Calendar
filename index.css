@@ -4,18 +4,20 @@
     padding: 0px;
 }
 
-.d_day_popup {
+/* d-day */
+.dday_popup {
     display: none;
 }
 
-.d_day_btn_mod {
+.dday_btn_mod {
     display: none;
 }
 
-.d_day_btn_del {
+.dday_btn_del {
     display: none;
 }
 
+/* calendar */
 .cal_nav {
     display: flex;
     margin: 2%;
@@ -48,8 +50,7 @@
    flex-flow: row wrap;
 }
 
-/* 배수로 선택하기: 7의 배수중 첫번 째 */
-.day:nth-child(7n + 1),
+.day:nth-child(7n + 1),   /* 배수로 선택하기: 7의 배수중 첫번 째 */
 .date:nth-child(7n + 1) {
     color: red;
 }
@@ -69,7 +70,7 @@
     opacity: 0.3;
 }
 
-.d_day_date2 {
+.dday_date2 {
     color: green;
 }
 
@@ -81,6 +82,6 @@
 .to_do {
     display: none;
     width: 100%;
-    height: 200px;
+    height: 300px;
     background-color: red;
 }

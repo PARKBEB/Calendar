@@ -8,28 +8,28 @@
 <body>
     <!-- d-day -->
     <div>
-        <button onclick="d_insert()" class="d_day_btn">d-day 입력🎯</button>
-        <div class="d_day"></div>
-        <button onclick="d_modify()" class="d_day_btn_mod">수정🎯</button>
-        <button onclick="d_delete()" class="d_day_btn_del">삭제🎯</button>
+        <button onclick="insertDday()" class="dday_btn">d-day 입력🎯</button>
+        <div class="dday"></div>
+        <button onclick="modifyDday()" class="dday_btn_mod">수정🎯</button>
+        <button onclick="deleteDday()" class="dday_btn_del">삭제🎯</button>
     </div>
-    <div class="d_day_popup">
+    <div class="dday_popup">
         <div>
             <span>목표 : </span>
-            <input type="text"  class="d_day_text" max="10">
+            <input type="text"  class="dday_text" max="10">
         </div>
         <div>
-            <input type="date" class="d_day_date">
+            <input type="date" class="dday_date">
         </div>
-        <button onclick="d_insert_ok()" class="d_day_ok_btn">확인</button>
-        <button onclick="d_insert_cancel()" class="d_day_ok_btn">취소</button>
+        <button onclick="insertDdayOk()" class="dday_ok_btn">확인</button>
+        <button onclick="insertDdayCancel()" class="dday_ok_btn">취소</button>
     </div>
     <!-- calendar -->
     <div class="cal_nav">
-        <button onclick="calPre()" class="cal_pre_btn">◀</button>
+        <button onclick="previousCal()" class="cal_pre_btn">◀</button>
         <div class="cal_year_month"></div>
-        <button onclick="calNext()" class="cal_next_btn">▶</button>
-        <button onclick="calToDay()" class="cal_today_btn">TODAY</button>
+        <button onclick="nextCal()" class="cal_next_btn">▶</button>
+        <button onclick="todayCal()" class="cal_today_btn">TODAY</button>
     </div>
     <div class="cal_content">
         <div class="cal_main">
@@ -50,8 +50,7 @@
             <div class="to_do_text">
                 <input type="text" class="addValue" placeholder="할 일 추가하기">
             </div>
-            <button class="plus_btn" onclick="plus()">➕</button>
-            <button class="minus_btn" onclick="minus()">➖</button>
+            <button class="plus_btn" onclick="addTask()">➕</button>
         </div>
     </div>
     <script src="./d-day.js"></script>

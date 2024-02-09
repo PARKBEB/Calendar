@@ -1,27 +1,27 @@
-let d_day_popup = document.querySelector('.d_day_popup');
-let d_day_btn = document.querySelector('.d_day_btn');
-let d_day_btn_mod = document.querySelector('.d_day_btn_mod');
-let d_day_btn_del = document.querySelector('.d_day_btn_del');
-let d_day = document.querySelector('.d_day');
-let d_day_text = document.querySelector('.d_day_text');
-let d_day_date = document.querySelector('.d_day_date');
+let modal = document.querySelector('.dday_popup');
+let addButton = document.querySelector('.dday_btn');
+let modifyButton = document.querySelector('.dday_btn_mod');
+let deleteButton = document.querySelector('.dday_btn_del');
+let dday = document.querySelector('.dday');
+let ddayTextInput = document.querySelector('.dday_text');
+let ddayDateInput = document.querySelector('.dday_date');
 
 // 날짜 추출
 let today = new Date();
 
-function d_insert() {
-    d_day_popup.style.display = "block";
-    d_day_btn.style.display = "none";
-    document.querySelector('.d_day_text').value = "";
-    document.querySelector('.d_day_date').value = "";
+function insertDday() {
+    modal.style.display = "block";
+    addButton.style.display = "none";
+    document.querySelector('.dday_text').value = "";
+    document.querySelector('.dday_date').value = "";
 }
 
-function d_insert_ok() {
-    d_day_btn.style.display = "none";
+function insertDdayOk() {
+    addButton.style.display = "none";
 
-    d_day_text = document.querySelector('.d_day_text').value; // input태그는 value로 값을 가져옴
-    d_day_date = document.querySelector('.d_day_date').value;
-    let date_insert = new Date(d_day_date);
+    ddayTextInput = document.querySelector('.dday_text').value; // input태그는 value로 값을 가져옴
+    ddayDateInput = document.querySelector('.dday_date').value;
+    let date_insert = new Date(ddayDateInput);
     
     // date_insert가 Tue Feb 06 2024 17:36:07 GMT+0900 (한국 표준시) 시간이 9시로 고정되서 표현되서 아래 써줘여함
     date_insert.setHours(today.getHours());
@@ -31,54 +31,54 @@ function d_insert_ok() {
 
     let differenceInDays = Math.floor((date_insert - today) / (24 * 60 * 60 * 1000));
 
-    if (d_day_text === "") {
+    if (ddayTextInput === "") {
         alert("목표를 입력해주세요");
-    } else if (d_day_date === "") {
+    } else if (ddayDateInput === "") {
         alert("오늘 이후에 날짜를 입력해주세요");
-        document.querySelector('.d_day_text').value = "";
-        document.querySelector('.d_day_date').value = "";
-        d_day_popup.style.display = "block";
+        document.querySelector('.dday_text').value = "";
+        document.querySelector('.dday_date').value = "";
+        modal.style.display = "block";
     } else if (differenceInDays == 0) {
-        d_day.innerText = d_day_text + "🎊D-DAY!🎊";
-        d_day_popup.style.display = "none";
-        d_day_btn_mod.style.display = "block"
-        d_day_btn_del.style.display = "block"
+        dday.innerText = ddayTextInput + "🎊D-DAY!🎊";
+        modal.style.display = "none";
+        modifyButton.style.display = "block"
+        deleteButton.style.display = "block"
     } else if (differenceInDays < 0) {
         differenceInDays = -differenceInDays;
-        d_day.innerText = d_day_text + " " + "D+" + differenceInDays + "\n 날짜가 지났습니다.";
-        d_day_popup.style.display = "none";
-        d_day_btn_mod.style.display = "block";
-        d_day_btn_del.style.display = "block";
+        dday.innerText = ddayTextInput + " " + "D+" + differenceInDays + "\n 날짜가 지났습니다.";
+        modal.style.display = "none";
+        modifyButton.style.display = "block";
+        deleteButton.style.display = "block";
     } else {
-        d_day.innerText = d_day_text + " " + "D-" + differenceInDays;
-        d_day_popup.style.display = "none";
-        d_day_btn_mod.style.display = "block"
-        d_day_btn_del.style.display = "block"
+        dday.innerText = ddayTextInput + " " + "D-" + differenceInDays;
+        modal.style.display = "none";
+        modifyButton.style.display = "block"
+        deleteButton.style.display = "block"
     }
 }
 
-function d_insert_cancel() {
-    if (d_day.innerText == "") {
-        d_day_popup.style.display = "none";
-        d_day_btn.style.display = "block";
+function insertDdayCancel() {
+    if (dday.innerText == "") {
+        modal.style.display = "none";
+        addButton.style.display = "block";
     } else {
-        d_day_popup.style.display = "none";
-        d_day_btn.style.display = "none";
-        d_day_btn_mod.style.display = "block";
-        d_day_btn_del.style.display = "block";
+        modal.style.display = "none";
+        addButton.style.display = "none";
+        modifyButton.style.display = "block";
+        deleteButton.style.display = "block";
     }
 }
 
-function d_modify() {
-    d_day.innerText = "";
-    d_day_popup.style.display = "block";
-    d_day_btn_mod.style.display = "none";
-    d_day_btn_del.style.display = "none";
+function modifyDday() {
+    dday.innerText = "";
+    modal.style.display = "block";
+    modifyButton.style.display = "none";
+    deleteButton.style.display = "none";
 }
 
-function d_delete() {
-    d_day_btn.style.display = "block";
-    d_day_btn_mod.style.display = "none";
-    d_day_btn_del.style.display = "none";
-    d_day.innerText = "";
+function deleteDday() {
+    addButton.style.display = "block";
+    modifyButton.style.display = "none";
+    deleteButton.style.display = "none";
+    dday.innerText = "";
 }

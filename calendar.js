@@ -88,17 +88,17 @@ function renderCalendar() {
 
 renderCalendar();
  
-function calPre() {
+function previousCal() {
     date.setMonth(date.getMonth() - 1);
     renderCalendar();
 }
 
-function calNext() {
+function nextCal() {
     date.setMonth(date.getMonth() + 1);
     renderCalendar();
 }
 
-function calToDay() {
+function todayCal() {
     date = new Date();
     renderCalendar();
 }
@@ -107,28 +107,30 @@ function calToDay() {
 let toDoDate = document.querySelectorAll('.date');
 toDoDate.forEach(function(date) {
     date.addEventListener('click', toDO);
-    console.log("이것입니당2"+date);
 });
-
-// document.querySelector('.date').innerHTML = '<div class="todo"></div>';
 
 // 클릭된 요소의 색상을 변경하는 toDO 함수
 function toDO() {
-    // 실패-아래 주석대로 하면  date안에 네모 생김
-        // let newTodo = document.createElement('div');
-        // newTodo.classList.add('todo');
-        // event.currentTarget.appendChild(newTodo);
-        // event.currentTarget.querySelector('.todo').style.display = "block";
-    
-    let toDo = document.querySelector('.to_do');
-    toDo.style.display = "block";
+    let todoModal = document.querySelector('.to_do');
+    todoModal.style.display = "block";
 }
 
-let text = document.querySelector(".addValue");
-let result = document.querySelector(".result");
+let addValueInput = document.querySelector(".addValue");
+let taskList = document.querySelector(".result");
+let taskElements = taskList.getElementsByTagName("p");
 
-function plus() {
-    let list = document.createElement("p");
-    list.innerHTML = text.value;
-    result.appendChild(list); // 추가된 할일에 할일 리스트 추가하기 
+function addTask() {
+    if (taskElements.length <= 10) {
+        let list = document.createElement("p");
+        let delButton = document.createElement("button");
+        delButton.innerHTML = "x";
+        delButton.classList.add('del_btn');
+        taskList.appendChild(delButton);
+        list.innerHTML = addValueInput.value;
+        taskList.appendChild(list); // 추가된 할일에 할일 리스트 추가하기 
+        addValueInput.value = "";
+    } else {
+        alert("10개 이하 등록해야함");
+        addValueInput.value = "";
+    }
 }
