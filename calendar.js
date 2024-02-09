@@ -53,6 +53,17 @@ function renderCalendar() {
 
     const today = new Date();
 
+    // 이벤트 리스너를 각 .date 요소에 추가
+    let toDoDate = document.querySelectorAll('.date');
+    toDoDate.forEach(function(date) {
+        date.addEventListener('click', toDO);
+    });
+
+    function toDO() {
+        let todoModal = document.querySelector('.to_do');
+        todoModal.style.display = "block";
+    }
+
     // today 날짜 색깔 표시
     let curDays = document.querySelectorAll('.date');
 
@@ -103,34 +114,45 @@ function todayCal() {
     renderCalendar();
 }
 
-// 이벤트 리스너를 각 .date 요소에 추가
-let toDoDate = document.querySelectorAll('.date');
-toDoDate.forEach(function(date) {
-    date.addEventListener('click', toDO);
-});
-
-// 클릭된 요소의 색상을 변경하는 toDO 함수
-function toDO() {
-    let todoModal = document.querySelector('.to_do');
-    todoModal.style.display = "block";
-}
-
 let addValueInput = document.querySelector(".addValue");
 let taskList = document.querySelector(".result");
 let taskElements = taskList.getElementsByTagName("p");
 
+// 이벤트 핸들러가 등록되는 시점은 JavaScript 코드에서 해당 이벤트 리스너가 추가되는 시점, 이 때 주로 이벤트 리스너를 추가하는 함수가 호출되는 시점이 됨. 만약 페이지가 로드될 때 존재하지 않는 요소에 이벤트를 추가하려면, 일반적으로 이벤트 리스너를 추가하는 JavaScript 코드가 해당 요소를 생성한 직후에 위치하도록 해야 함. 이렇게 함으로써 요소가 생성되고 이벤트가 바로 추가되므로 요소가 존재하지 않는 문제를 방지할 수 있음.
+function createDeleteButton() {
+    let delButton = document.createElement('button');
+    delButton.innerHTML = "X";
+    delButton.classList.add('del_btn');
+
+    // 삭제 버튼에 이벤트 리스너 추가
+    delButton.addEventListener('click', function() {
+        delButton.parentNode.remove(); // 이벤트가 발생한 요소의 부모 노드를 삭제하여 버튼을 삭제합니다.
+    });
+
+    return delButton;
+}
+
+// 삭제 경우에는 이벤트 핸들러가 등록되는 시점에서 해당 요소가 존재하지 않을 때 
 function addTask() {
-    if (taskElements.length <= 10) {
+    if (addValueInput.value === "") {
+        alert("내용 입력 하삼");
+    } else if (taskElements.length < 10) {
+        let container = document.createElement("div");
+        container.classList.add('container');
+
         let list = document.createElement("p");
-        let delButton = document.createElement("button");
-        delButton.innerHTML = "x";
-        delButton.classList.add('del_btn');
-        taskList.appendChild(delButton);
         list.innerHTML = addValueInput.value;
-        taskList.appendChild(list); // 추가된 할일에 할일 리스트 추가하기 
+
+        container.appendChild(list); // 추가된 할일에 할일 리스트 추가하기 
+        let delButton = createDeleteButton(); // 삭제 버튼 생성
+        container.appendChild(delButton); // 삭제 버튼을 container에 추가
+
+        taskList.appendChild(container);
         addValueInput.value = "";
     } else {
         alert("10개 이하 등록해야함");
         addValueInput.value = "";
     }
 }
+
+
