@@ -152,4 +152,4 @@ function addTask() {
     }
 }
 
-
+document.querySelector('.container').setAttribute("draggable", "true");
