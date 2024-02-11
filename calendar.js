@@ -137,7 +137,7 @@ function addTask() {
     } else if (taskElements.length < 10) {
         let container = document.createElement("div");
         container.classList.add('container');
-
+    
         let task = createClearButton();
         container.appendChild(task); // 추가된 할일에 할일 리스트 추가하기 
         
@@ -145,11 +145,30 @@ function addTask() {
         container.appendChild(delButton); // 삭제 버튼을 container에 추가
 
         taskList.appendChild(container);
+        
         addValueInput.value = "";
+
+        let containers = document.querySelectorAll('.container');
+        containers.forEach(function(container) {
+            container.setAttribute("draggable", "true");
+        });
+
+        let containerDrags = document.querySelectorAll('.container');
+
+        containerDrags.forEach(function(dragEl) {
+            dragEl.addEventListener('dragstart', function() {
+                dragEl.classList.add('dragging');
+                console.log("들었다");
+            });
+        
+            dragEl.addEventListener('dragend', function() {
+                dragEl.classList.remove('dragging');
+                console.log("놨다");
+            });
+        });
     } else {
         alert("10개 이하 등록해야함");
         addValueInput.value = "";
     }
 }
 
-document.querySelector('.container').setAttribute("draggable", "true");
