@@ -168,8 +168,8 @@ function addTask() {
         });
 
         // offset이라는 변수가 상품의 중심 위치와 드래그한 위치 사이의 거리
-        function getDragAfterElement(tasks, y) {
-            const draggableElements = [...tasks.querySelectorAll('.draggable:not(.dragging)')];
+        function getDragAfterElement(y) {
+            const draggableElements = [...taskList.querySelectorAll('.container:not(.dragging)')];
         
             return draggableElements.reduce(function(closest, child) {
                 const box = child.getBoundingClientRect();
@@ -182,15 +182,15 @@ function addTask() {
             }, { offset: Number.NEGATIVE_INFINITY }).element; // 가장 작은 값의 요소
         }
 
-        let tasks = document.querySelectorAll(".container");
+        let containerALL = document.querySelectorAll(".container");
 
-        tasks.forEach(function(container) {
+        containerALL.forEach(function(container) {
             container.addEventListener('dragover', function(e) {
                 e.preventDefault();
-                let afterElement = getDragAfterElement(tasks, e.clientY);
-                let draggable = container.querySelector('dragging');
+                let afterElement = getDragAfterElement(e.clientY);
+                let draggable = document.querySelector('.dragging');
                 
-                container.insertBefore(draggable, afterElement);
+                taskList.insertBefore(draggable, afterElement);
             });
         });
     } else {
