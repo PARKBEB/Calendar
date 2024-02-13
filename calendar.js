@@ -1,4 +1,5 @@
 let date = new Date();
+let selectDate;
 
 function renderCalendar() {
     
@@ -61,7 +62,7 @@ function renderCalendar() {
 
     function toDO() {
         let todoModal = document.querySelector('.to_do');
-        todoModal.style.display = "block";
+        todoModal.style.display = todoModal.style.display === "block" ? "none" : "block";
     }
 
     // today 날짜 색깔 표시
@@ -80,10 +81,20 @@ function renderCalendar() {
                 break;
             }
         }
-    } 
+    }
+
+    let DateList = document.querySelectorAll('.date');
+        
+    DateList.forEach(function(date) {
+        date.addEventListener('click', function(){      
+            selectDate = viewYear + "라" + (viewMonth + 1) + date.innerText;
+        });       
+    });
+
 }
 
 renderCalendar();
+console.log("이거다0" + selectDate);
  
 function previousCal() {
     date.setMonth(date.getMonth() - 1);
@@ -118,17 +129,32 @@ function createDeleteButton() {
     return delButton;
 }
 
-function createClearButton() {
-    let task = document.createElement("p");
-    task.innerHTML = addValueInput.value;
-    task.classList.add('task');
+    function createClearButton(selectDate) {
+        let task = document.createElement("p");
+        task.innerHTML = addValueInput.value;
+        task.classList.add('task');
 
-    task.addEventListener('click', function() {
-        task.style = "color: gray; text-decoration: line-through;"
-    })
+        const data = {
+            "todo": addValueInput.value,
+            "date": selectDate
+        }
 
-    return task;
-}
+        fetch("http://localhost:3000/data", {
+            method: "POST",
+            body: JSON.stringify(data), // 전송할 데이터를 문자열로 변환
+            headers: {
+                "content-type": "application/json; charset=UTF-8;"
+            }
+        })
+        .then(response => response.json())
+        .then(json => console.log(json));
+
+        task.addEventListener('click', function() {
+            task.style = "color: gray; text-decoration: line-through;"
+        })
+
+        return task;
+    }
 
 // 삭제 경우에는 이벤트 핸들러가 등록되는 시점에서 해당 요소가 존재하지 않을 때 
 function addTask() {
@@ -137,17 +163,17 @@ function addTask() {
     } else if (taskElements.length < 10) {
         let container = document.createElement("div");
         container.classList.add('container');
-    
-        let task = createClearButton();
+
+        let task = createClearButton(selectDate);
         container.appendChild(task); // 추가된 할일에 할일 리스트 추가하기 
         
         let delButton = createDeleteButton(); // 삭제 버튼 생성
         container.appendChild(delButton); // 삭제 버튼을 container에 추가
-
-        taskList.appendChild(container);
         
+        taskList.appendChild(container);
         addValueInput.value = "";
 
+        // drag & drop
         let containers = document.querySelectorAll('.container');
         containers.forEach(function(container) {
             container.setAttribute("draggable", "true");

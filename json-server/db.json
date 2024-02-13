@@ -1,0 +1,56 @@
+{
+  "posts": [
+    {
+      "id": "1",
+      "title": "a title",
+      "views": 100
+    }
+  ],
+  "comments": [
+    {
+      "id": "1",
+      "text": "a comment about post 1",
+      "postId": "1"
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  },
+  "customers": [
+    {
+      "id": 1,
+      "name": "Jone Doe",
+      "company": "A"
+    },
+    {
+      "id": 2,
+      "name": "Kim Doe",
+      "company": "B"
+    },
+    {
+      "id": 3,
+      "name": "Song Doe",
+      "company": "C"
+    },
+    {
+      "id": 4,
+      "name": "Park Doe",
+      "company": "S"
+    },
+    {
+      "id": "a74c",
+      "name": "Park Doe",
+      "company": "S"
+    },
+    {
+      "id": "d784",
+      "name": "Park Doe",
+      "company": "S"
+    },
+    {
+      "id": "2c45",
+      "name": "Park Doe",
+      "company": "S"
+    }
+  ]
+}
