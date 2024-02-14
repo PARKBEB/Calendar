@@ -87,14 +87,29 @@ function renderCalendar() {
         
     DateList.forEach(function(date) {
         date.addEventListener('click', function(){      
-            selectDate = viewYear + "라" + (viewMonth + 1) + date.innerText;
+            selectDate = String(viewYear) + String(viewMonth + 1) + date.innerText;
+            console.log(selectDate);
+            getData(selectDate);
         });       
     });
 
+    function getData(selectDate) {
+        fetch(`http://localhost:3000/data?date=${selectDate}`) 
+        .then(response => response.json())
+        .then((json) => {
+            const h = [];
+            for(const data of json) {
+                let todoWithButton = `
+                <div>${data.todo}
+                </div>`;
+                h.push(todoWithButton);
+            }
+            document.querySelector('.result').innerHTML = h.join("");
+        });
+    } 
 }
 
 renderCalendar();
-console.log("이거다0" + selectDate);
  
 function previousCal() {
     date.setMonth(date.getMonth() - 1);
@@ -123,6 +138,12 @@ function createDeleteButton() {
 
     // 삭제 버튼에 이벤트 리스너 추가
     delButton.addEventListener('click', function() {
+            // let targetId = e.target.dataset.id;
+            // fetch(`http://localhost:3000/${targetId}`, {
+            //     method: "DELETE",
+            // })
+            // .then(response => response.json())
+            // .then(json => console.log(json))
         delButton.parentNode.remove(); // 이벤트가 발생한 요소의 부모 노드를 삭제하여 버튼을 삭제합니다.
     });
 
@@ -130,28 +151,39 @@ function createDeleteButton() {
 }
 
     function createClearButton(selectDate) {
-        let task = document.createElement("p");
+        let task = document.createElement("p");       
         task.innerHTML = addValueInput.value;
         task.classList.add('task');
 
-        const data = {
-            "todo": addValueInput.value,
-            "date": selectDate
-        }
+        // const data = {
+        //     "todo": addValueInput.value,
+        //     "date": selectDate
+        // }
 
-        fetch("http://localhost:3000/data", {
-            method: "POST",
-            body: JSON.stringify(data), // 전송할 데이터를 문자열로 변환
-            headers: {
-                "content-type": "application/json; charset=UTF-8;"
-            }
-        })
-        .then(response => response.json())
-        .then(json => console.log(json));
+        // fetch("http://localhost:3000/data", {
+        //     method: "POST",
+        //     body: JSON.stringify(data), // 전송할 데이터를 문자열로 변환
+        //     headers: {
+        //         "content-type": "application/json; charset=UTF-8;"
+        //     }
+        // })
+        // .then(response => response.json())
+        // .then(json => console.log(json));
 
         task.addEventListener('click', function() {
-            task.style = "color: gray; text-decoration: line-through;"
-        })
+            // 현재 스타일 가져오기
+            var currentColor = task.style.color;
+            var currentTextDecoration = task.style.textDecoration;
+        
+            // 스타일 변경하기
+            if (currentColor === "gray" && currentTextDecoration === "line-through") {
+                task.style.color = "black";
+                task.style.textDecoration = "none";
+            } else {
+                task.style.color = "gray";
+                task.style.textDecoration = "line-through";
+            }
+        });
 
         return task;
     }

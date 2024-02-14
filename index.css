@@ -68,6 +68,7 @@
 
 .other {
     opacity: 0.3;
+    pointer-events: none !important;
 }
 
 .dday_date2 {
