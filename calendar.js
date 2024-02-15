@@ -100,11 +100,47 @@ function renderCalendar() {
             const h = [];
             for(const data of json) {
                 let todoWithButton = `
-                <div>${data.todo}
+                <div class="container" data-id="${data.id}" draggable="true">
+                    <div class="task">${data.todo}</div>
+                    <span class="del_btn">X</span>
                 </div>`;
                 h.push(todoWithButton);
             }
+
             document.querySelector('.result').innerHTML = h.join("");
+
+            let taskList = document.querySelectorAll('.task');
+            taskList.forEach(function(task) {
+                task.addEventListener('click', function() {
+                    // 현재 스타일 가져오기
+                    var currentColor = task.style.color;
+                    var currentTextDecoration = task.style.textDecoration;
+                
+                    // 스타일 변경하기
+                    if (currentColor === "gray" && currentTextDecoration === "line-through") {
+                        task.style.color = "black";
+                        task.style.textDecoration = "none";
+                    } else {
+                        task.style.color = "gray";
+                        task.style.textDecoration = "line-through";
+                    }
+                });
+            });
+            
+            document.querySelector('.result').addEventListener('click', function(event) {     // 근데 왜 document.querySelector('.delButton')은 안될까
+                 if (event.target.classList.contains('del_btn')) {
+                    let targetId = event.target.parentNode.dataset.id;   //parentNode이거랑 parentElement 차이가 
+                    console.log("확인:" + targetId);
+
+                fetch(`http://localhost:3000/data/${targetId}`, {
+                    method: "DELETE",
+                })
+                .then(response => response.json())
+                .then(json => console.log(json))
+
+                event.target.parentNode.remove();
+                }
+            });
         });
     } 
 }
@@ -138,12 +174,6 @@ function createDeleteButton() {
 
     // 삭제 버튼에 이벤트 리스너 추가
     delButton.addEventListener('click', function() {
-            // let targetId = e.target.dataset.id;
-            // fetch(`http://localhost:3000/${targetId}`, {
-            //     method: "DELETE",
-            // })
-            // .then(response => response.json())
-            // .then(json => console.log(json))
         delButton.parentNode.remove(); // 이벤트가 발생한 요소의 부모 노드를 삭제하여 버튼을 삭제합니다.
     });
 
@@ -155,20 +185,20 @@ function createDeleteButton() {
         task.innerHTML = addValueInput.value;
         task.classList.add('task');
 
-        // const data = {
-        //     "todo": addValueInput.value,
-        //     "date": selectDate
-        // }
+        const data = {
+            "todo": addValueInput.value,
+            "date": selectDate
+        }
 
-        // fetch("http://localhost:3000/data", {
-        //     method: "POST",
-        //     body: JSON.stringify(data), // 전송할 데이터를 문자열로 변환
-        //     headers: {
-        //         "content-type": "application/json; charset=UTF-8;"
-        //     }
-        // })
-        // .then(response => response.json())
-        // .then(json => console.log(json));
+        fetch("http://localhost:3000/data", {
+            method: "POST",
+            body: JSON.stringify(data), // 전송할 데이터를 문자열로 변환
+            headers: {
+                "content-type": "application/json; charset=UTF-8;"
+            }
+        })
+        .then(response => response.json())
+        .then(json => console.log(json));
 
         task.addEventListener('click', function() {
             // 현재 스타일 가져오기
@@ -205,52 +235,50 @@ function addTask() {
         taskList.appendChild(container);
         addValueInput.value = "";
 
-        // drag & drop
-        let containers = document.querySelectorAll('.container');
-        containers.forEach(function(container) {
-            container.setAttribute("draggable", "true");
-        });
+    //     // drag & drop
 
-        let containerDrags = document.querySelectorAll('.container');
+    // let containers = document.querySelectorAll('.container');
+    
+    // containers.forEach(function(container) {
+    //     container.setAttribute("draggable", "true");
+    //     });
 
-        containerDrags.forEach(function(dragEl) {
-            dragEl.addEventListener('dragstart', function() {
-                dragEl.classList.add('dragging');
-                console.log("들었다");
-            });
-        
-            dragEl.addEventListener('dragend', function() {
-                dragEl.classList.remove('dragging');
-                console.log("놨다");
-            });
-        });
+    // containers.forEach(function(dragEl) {
+    //     dragEl.addEventListener('dragstart', function() {
+    //         dragEl.classList.add('dragging');
+    //         console.log("들었다");
+    //     });
 
-        // offset이라는 변수가 상품의 중심 위치와 드래그한 위치 사이의 거리
-        function getDragAfterElement(y) {
-            const draggableElements = [...taskList.querySelectorAll('.container:not(.dragging)')];
-        
-            return draggableElements.reduce(function(closest, child) {
-                const box = child.getBoundingClientRect();
-                const offset = y - box.top - box.height / 2;
-                if (offset < 0 && offset > closest.offset) {
-                    return { offset: offset, element: child };
-                } else {
-                    return closest;
-                }
-            }, { offset: Number.NEGATIVE_INFINITY }).element; // 가장 작은 값의 요소
-        }
+    //     dragEl.addEventListener('dragend', function() {
+    //         dragEl.classList.remove('dragging');
+    //         console.log("놨다");
+    //     });
+    // });
 
-        let containerALL = document.querySelectorAll(".container");
+    // // offset이라는 변수가 상품의 중심 위치와 드래그한 위치 사이의 거리
+    // function getDragAfterElement(y) {
+    //     const draggableElements = [...taskList.querySelectorAll('.container:not(.dragging)')];
 
-        containerALL.forEach(function(container) {
-            container.addEventListener('dragover', function(e) {
-                e.preventDefault();
-                let afterElement = getDragAfterElement(e.clientY);
-                let draggable = document.querySelector('.dragging');
-                
-                taskList.insertBefore(draggable, afterElement);
-            });
-        });
+    //     return draggableElements.reduce(function(closest, child) {
+    //         const box = child.getBoundingClientRect();
+    //         const offset = y - box.top - box.height / 2;
+    //         if (offset < 0 && offset > closest.offset) {
+    //             return { offset: offset, element: child };
+    //         } else {
+    //             return closest;
+    //         }
+    //     }, { offset: Number.NEGATIVE_INFINITY }).element; // 가장 작은 값의 요소
+    // }
+
+    // containers.forEach(function(container) {
+    //     container.addEventListener('dragover', function(e) {
+    //         e.preventDefault();
+    //         let afterElement = getDragAfterElement(e.clientY);
+    //         let draggable = document.querySelector('.dragging');
+            
+    //         taskList.insertBefore(draggable, afterElement);
+    //     });
+    // });
     } else {
         alert("10개 이하 등록해야함");
         addValueInput.value = "";
