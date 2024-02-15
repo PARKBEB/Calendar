@@ -100,17 +100,17 @@ function renderCalendar() {
             const h = [];
             for(const data of json) {
                 let todoWithButton = `
-                <div class="container" data-id="${data.id}" draggable="true">
+                <div class="container" data-id="${data.id}">
                     <div class="task">${data.todo}</div>
-                    <span class="del_btn">X</span>
+                    <span class="del_btn">💗</span>
                 </div>`;
                 h.push(todoWithButton);
             }
 
             document.querySelector('.result').innerHTML = h.join("");
 
-            let taskList = document.querySelectorAll('.task');
-            taskList.forEach(function(task) {
+            let taskAll = document.querySelectorAll('.task');
+            taskAll.forEach(function(task) {
                 task.addEventListener('click', function() {
                     // 현재 스타일 가져오기
                     var currentColor = task.style.color;
@@ -126,6 +126,50 @@ function renderCalendar() {
                     }
                 });
             });
+
+            let containers = document.querySelectorAll('.container');
+            let taskList = document.querySelector(".result");
+            
+            // drag & drop
+            containers.forEach(function(container) {
+                container.setAttribute("draggable", "true");
+                });
+                containers.forEach(function(dragEl) {
+                    dragEl.addEventListener('dragstart', function() {
+                        dragEl.classList.add('dragging');
+                        console.log("들었다");
+                    });
+            
+                    dragEl.addEventListener('dragend', function() {
+                        dragEl.classList.remove('dragging');
+                        console.log("놨다");
+                    });
+                });
+            
+                // offset이라는 변수가 상품의 중심 위치와 드래그한 위치 사이의 거리
+                function getDragAfterElement(y) {
+                    const draggableElements = [...taskList.querySelectorAll('.container:not(.dragging)')];
+            
+                    return draggableElements.reduce(function(closest, child) {
+                        const box = child.getBoundingClientRect();
+                        const offset = y - box.top - box.height / 2;
+                        if (offset < 0 && offset > closest.offset) {
+                            return { offset: offset, element: child };
+                        } else {
+                            return closest;
+                        }
+                    }, { offset: Number.NEGATIVE_INFINITY }).element; // 가장 작은 값의 요소
+                }
+            
+                containers.forEach(function(container) {
+                    container.addEventListener('dragover', function(e) {
+                        e.preventDefault();
+                        let afterElement = getDragAfterElement(e.clientY);
+                        let draggable = document.querySelector('.dragging');
+                        
+                        taskList.insertBefore(draggable, afterElement);
+                    });
+                });
             
             document.querySelector('.result').addEventListener('click', function(event) {     // 근데 왜 document.querySelector('.delButton')은 안될까
                  if (event.target.classList.contains('del_btn')) {
