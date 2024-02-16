@@ -1,6 +1,8 @@
 let date = new Date();
 let selectDate;
 
+let listBar = document.querySelector('.list_bar');
+
 function renderCalendar() {
     
     const viewYear = date.getFullYear();
@@ -96,33 +98,51 @@ function renderCalendar() {
     function getData(selectDate) {
         fetch(`http://localhost:3000/data?date=${selectDate}`) 
         .then(response => response.json())
-        .then((json) => {
+        .then(json => {
             const h = [];
             for(const data of json) {
                 let todoWithButton = `
                 <div class="container" data-id="${data.id}">
-                    <div class="task">${data.todo}</div>
+                    <div class="task" data-bool="${data.bool}">${data.todo}</div>
                     <span class="del_btn">💗</span>
                 </div>`;
+
                 h.push(todoWithButton);
             }
 
             document.querySelector('.result').innerHTML = h.join("");
+            let hLength = h.length;
+
+            let a;
+
+            if (hLength !== 0) {
+                a = Math.floor(100 / hLength);
+            }
 
             let taskAll = document.querySelectorAll('.task');
             taskAll.forEach(function(task) {
-                task.addEventListener('click', function() {
-                    // 현재 스타일 가져오기
-                    var currentColor = task.style.color;
-                    var currentTextDecoration = task.style.textDecoration;
-                
+                task.addEventListener('click', function(event) {
+                    let bool = event.target.dataset.bool
+                    
                     // 스타일 변경하기
-                    if (currentColor === "gray" && currentTextDecoration === "line-through") {
+                    if (bool === 'false') {
                         task.style.color = "black";
                         task.style.textDecoration = "none";
+
+                        task.dataset.bool = true;
+
+                        a -= a
+                        listBar.style.width = `${a}px`;
                     } else {
                         task.style.color = "gray";
                         task.style.textDecoration = "line-through";
+
+                        a += a 
+                        listBar.style.width = `${a}px`;
+                        listBar.style.height = "50px";
+                        listBar.style.background = "blue";
+
+                        task.dataset.bool = false;
                     }
                 });
             });
@@ -172,17 +192,17 @@ function renderCalendar() {
                 });
             
             document.querySelector('.result').addEventListener('click', function(event) {     // 근데 왜 document.querySelector('.delButton')은 안될까
-                 if (event.target.classList.contains('del_btn')) {
-                    let targetId = event.target.parentNode.dataset.id;   //parentNode이거랑 parentElement 차이가 
-                    console.log("확인:" + targetId);
+                // fetch는 비동기 함수
+                if (event.target.classList.contains('del_btn')) {
+                let targetId = event.target.parentNode.dataset.id;   //parentNode이거랑 parentElement 차이가 
+    
+                    fetch(`http://localhost:3000/data/${targetId}`, {
+                        method: "DELETE",
+                    })
+                    .then(response => response.json())
+                    .then(json => console.log(json))
 
-                fetch(`http://localhost:3000/data/${targetId}`, {
-                    method: "DELETE",
-                })
-                .then(response => response.json())
-                .then(json => console.log(json))
-
-                event.target.parentNode.remove();
+                    event.target.parentNode.remove();
                 }
             });
         });
@@ -231,7 +251,8 @@ function createDeleteButton() {
 
         const data = {
             "todo": addValueInput.value,
-            "date": selectDate
+            "date": selectDate,
+            "bool": true
         }
 
         fetch("http://localhost:3000/data", {
