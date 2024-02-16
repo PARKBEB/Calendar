@@ -91,7 +91,6 @@ function renderCalendar() {
     DateList.forEach(function(date) {
         date.addEventListener('click', function(){      
             selectDate = String(viewYear) + String(viewMonth + 1) + date.innerText;
-            console.log(selectDate);
             getData(selectDate);
         });       
     });
@@ -103,12 +102,14 @@ function renderCalendar() {
             const h = [];
             for(const data of json) {
                 let todoWithButton = `
-                <div class="container" data-id="${data.id}">
+                <div class="container" data-id="${data.id}" data-date="${data.date}">
                     <div class="task" data-bool="${data.bool}">${data.todo}</div>
                     <span class="del_btn">❌</span>
                 </div>`;
 
                 h.push(todoWithButton);
+                listBar.style.width = "0px"; 
+                sum = 0;
             }
 
             document.querySelector('.result').innerHTML = h.join("");
@@ -124,27 +125,29 @@ function renderCalendar() {
             taskAll.forEach(function(task) {
                 task.addEventListener('click', function(event) {
                     let bool = event.target.dataset.bool
-                    
-                    // 스타일 변경하기
-                    if (bool === 'false') {
-                        task.style.color = "black";
-                        task.style.textDecoration = "none";
+                    console.log("그냥입니당"+selectDate);
 
-                        task.dataset.bool = true;
+          
+                        // 스타일 변경하기
+                        if (bool === 'false') {
+                            task.style.color = "black";
+                            task.style.textDecoration = "none";
 
-                        sum -=  a
-                        listBar.style.width = `${sum}px`;
-                    } else {
-                        task.style.color = "gray";
-                        task.style.textDecoration = "line-through";
+                            task.dataset.bool = true;
 
-                        sum += a; 
-                        listBar.style.width = `${sum}px`;
-                        listBar.style.height = "50px";
-                        listBar.style.background = "blue";
+                            sum -=  a
+                            listBar.style.width = `${sum}px`;
+                        } else {
+                            task.style.color = "gray";
+                            task.style.textDecoration = "line-through";
 
-                        task.dataset.bool = false;
-                    }
+                            sum += a; 
+                            listBar.style.width = `${sum}px`;
+                            listBar.style.height = "50px";
+                            listBar.style.background = "blue";
+
+                            task.dataset.bool = false;
+                        }
                 });
             });
 
