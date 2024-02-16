@@ -90,6 +90,8 @@ function renderCalendar() {
         
     DateList.forEach(function(date) {
         date.addEventListener('click', function(){      
+            listBar.style.width = "0px"; 
+            sum = 0;
             selectDate = String(viewYear) + String(viewMonth + 1) + date.innerText;
             getData(selectDate);
         });       
@@ -108,8 +110,6 @@ function renderCalendar() {
                 </div>`;
 
                 h.push(todoWithButton);
-                listBar.style.width = "0px"; 
-                sum = 0;
             }
 
             document.querySelector('.result').innerHTML = h.join("");
