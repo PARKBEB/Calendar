@@ -1,5 +1,6 @@
 let date = new Date();
 let selectDate;
+let sum = 0;
 
 let listBar = document.querySelector('.list_bar');
 
@@ -104,7 +105,7 @@ function renderCalendar() {
                 let todoWithButton = `
                 <div class="container" data-id="${data.id}">
                     <div class="task" data-bool="${data.bool}">${data.todo}</div>
-                    <span class="del_btn">💗</span>
+                    <span class="del_btn">❌</span>
                 </div>`;
 
                 h.push(todoWithButton);
@@ -131,14 +132,14 @@ function renderCalendar() {
 
                         task.dataset.bool = true;
 
-                        a -= a
-                        listBar.style.width = `${a}px`;
+                        sum -=  a
+                        listBar.style.width = `${sum}px`;
                     } else {
                         task.style.color = "gray";
                         task.style.textDecoration = "line-through";
 
-                        a += a 
-                        listBar.style.width = `${a}px`;
+                        sum += a; 
+                        listBar.style.width = `${sum}px`;
                         listBar.style.height = "50px";
                         listBar.style.background = "blue";
 
