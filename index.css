@@ -1,7 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&family=Noto+Sans+TC:wght@100..900&family=Stylish&display=swap');
+
 * {
     box-sizing: border-box;
     margin: 0px;
     padding: 0px;
+    font-family: "Noto Sans TC", sans-serif;
 }
 
 /* d-day */
@@ -92,3 +95,14 @@
     flex-direction: row;
     justify-content: space-between;
 } */
+
+.msg_slider {
+    height: 24px;
+    overflow: hidden;
+    position: relative;
+}
+
+.msg_list {
+    position: absolute;  /* 이걸 설정해줘야 돌아감 */
+    bottom: 0;
+}
