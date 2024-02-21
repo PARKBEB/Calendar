@@ -96,13 +96,26 @@
     justify-content: space-between;
 } */
 
-.msg_slider {
+/* .msg_slider {
     height: 24px;
     overflow: hidden;
     position: relative;
 }
 
 .msg_list {
-    position: absolute;  /* 이걸 설정해줘야 돌아감 */
+    position: absolute;  이걸 설정해줘야 돌아감
     bottom: 0;
+}
+
+.msg_item {
+    margin-top: 5px;
+} */
+
+.msg_slider {
+    height: 40px;
+    overflow: hidden;
+}
+
+.msg_item {
+    padding: 5px;
 }
