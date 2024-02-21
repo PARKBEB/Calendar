@@ -112,10 +112,14 @@
 } */
 
 .msg_slider {
-    height: 40px;
+    height: 35px;
+    width: 290px;
     overflow: hidden;
+    border-radius: 3%;
+    border: 1px solid black;
+    text-align: center;
 }
 
 .msg_item {
-    padding: 5px;
+    margin: 5px;
 }

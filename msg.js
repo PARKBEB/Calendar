@@ -38,7 +38,7 @@ function displayMessage() {
     const li = document.createElement('li'); // 새 li 요소 생성
     li.classList.add('msg_item');
     li.innerHTML = `${message}`; // 메시지 내용 설정
-    console.log(li.innerHTML);
+    // console.log(li.innerHTML);
     msgList.appendChild(li); // 메시지 리스트에 추가
     cq.enqueue(message); // 큐에 메시지 추가
 }
@@ -51,24 +51,3 @@ setInterval(() => {
     msgList.removeChild(msgList.firstElementChild); // 첫 번째 메시지 제거
     displayMessage(); // 새 메시지 표시
 }, 800); // 3초마다 반복
-
-// function msg() {
-//     let h = msg_list.offsetHeight;
-//     let x = 0;
-//     let speed = 1;
-
-//     function moveFirst() {
-//         x -= speed;
-//         if(h >= Math.abs(x)) {
-//             msg_list.style.bottom = `${x}px`;
-            
-//         } else {
-//             x = 0;
-//             console.log("작동중2");
-//         }
-//     }
-
-//     setInterval(moveFirst, 50);
-// }
-
-// msg();

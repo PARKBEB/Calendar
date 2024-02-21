@@ -93,11 +93,11 @@ function renderCalendar() {
             listBar.style.width = "0px"; 
             sum = 0;
             selectDate = String(viewYear) + String(viewMonth + 1) + date.innerText;
-            getData(selectDate);
+            getData(selectDate, date);
         });       
     });
 
-    function getData(selectDate) {
+    function getData(selectDate, date) {
         fetch(`http://localhost:3000/data?date=${selectDate}`) 
         .then(response => response.json())
         .then(json => {
@@ -116,6 +116,12 @@ function renderCalendar() {
             let hLength = h.length;
 
             let a;
+
+            if (json.length > 0) {
+                date.style.background = "red";
+            } else {
+                date.style.background = "white";
+            }
 
             if (hLength !== 0) {
                 a = Math.floor(100 / hLength);
@@ -211,6 +217,8 @@ function renderCalendar() {
             });
         });
     } 
+
+
 }
 
 renderCalendar();
@@ -271,8 +279,8 @@ function createDeleteButton() {
 
         task.addEventListener('click', function() {
             // 현재 스타일 가져오기
-            var currentColor = task.style.color;
-            var currentTextDecoration = task.style.textDecoration;
+            let currentColor = task.style.color;
+            let currentTextDecoration = task.style.textDecoration;
         
             // 스타일 변경하기
             if (currentColor === "gray" && currentTextDecoration === "line-through") {
