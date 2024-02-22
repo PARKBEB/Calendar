@@ -7,9 +7,9 @@ let listBar = document.querySelector('.list_bar');
 function renderCalendar() {
     
     const viewYear = date.getFullYear();
-    const viewMonth = date.getMonth();
+    const viewMonth = date.getMonth(); // 왜 여기서 +1 한거랑 ${viewMonth + 1} 한거랑 차이가 있지
 
-    document.querySelector('.cal_year_month').textContent = `${viewYear}년 ${viewMonth + 1}월`;
+    document.querySelector('.cal_year_month').textContent = `${viewYear}年  ${(viewMonth + 1) < 10 ? '0' + (viewMonth + 1) : viewMonth + 1}月`;
 
     const preLast = new Date(viewYear, viewMonth, 0);      // 현재 월의 마지막 날
     const thisLast = new Date(viewYear, viewMonth + 1, 0); // 이전 월의 마지막 날
@@ -311,51 +311,6 @@ function addTask() {
         
         taskList.appendChild(container);
         addValueInput.value = "";
-
-    //     // drag & drop
-
-    // let containers = document.querySelectorAll('.container');
-    
-    // containers.forEach(function(container) {
-    //     container.setAttribute("draggable", "true");
-    //     });
-
-    // containers.forEach(function(dragEl) {
-    //     dragEl.addEventListener('dragstart', function() {
-    //         dragEl.classList.add('dragging');
-    //         console.log("들었다");
-    //     });
-
-    //     dragEl.addEventListener('dragend', function() {
-    //         dragEl.classList.remove('dragging');
-    //         console.log("놨다");
-    //     });
-    // });
-
-    // // offset이라는 변수가 상품의 중심 위치와 드래그한 위치 사이의 거리
-    // function getDragAfterElement(y) {
-    //     const draggableElements = [...taskList.querySelectorAll('.container:not(.dragging)')];
-
-    //     return draggableElements.reduce(function(closest, child) {
-    //         const box = child.getBoundingClientRect();
-    //         const offset = y - box.top - box.height / 2;
-    //         if (offset < 0 && offset > closest.offset) {
-    //             return { offset: offset, element: child };
-    //         } else {
-    //             return closest;
-    //         }
-    //     }, { offset: Number.NEGATIVE_INFINITY }).element; // 가장 작은 값의 요소
-    // }
-
-    // containers.forEach(function(container) {
-    //     container.addEventListener('dragover', function(e) {
-    //         e.preventDefault();
-    //         let afterElement = getDragAfterElement(e.clientY);
-    //         let draggable = document.querySelector('.dragging');
-            
-    //         taskList.insertBefore(draggable, afterElement);
-    //     });
-    // });
     } else {
         alert("10개 이하 등록해야함");
         addValueInput.value = "";

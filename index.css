@@ -7,6 +7,10 @@
     font-family: "Noto Sans TC", sans-serif;
 }
 
+body {
+    background-color: #D1EBD7;
+}
+
 /* d-day */
 .dday_popup {
     display: none;
@@ -21,26 +25,56 @@
 }
 
 /* calendar */
+.calendar {
+    width: 1669px;
+    height: 810px;
+    border-radius: 30px;
+    background-color: #FFFFFF;
+    font-size: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .cal_nav {
     display: flex;
-    margin: 2%;
+    margin: 51px 55px 81px 361px;
+}
+
+.cal_year_month {
+    margin: 0 260px;
+    width: 250px;
 }
 
 .cal_today_btn {
-    margin-left: 2%;
+    margin-left: 223px;
+    line-height: 58px;
+    font-size: 28px;
+    font-weight: 700;
+    color: white;
+    width: 149px;
+    height: 63px;
+    background-color: #FF9A51;
+    border-radius: 30px;
+    text-align: center;
+}
+
+.cal_main {
+    margin-left: 120px;
+    width: 1300px;
 }
 
 .day {
     width: calc(100% / 7);
-    border: 1px solid rgb(78, 75, 75);
+    margin-right: 140px;   
 }
 
 .date {
     width: calc(100% / 7);
-    border: 1px solid rgb(78, 75, 75);
     position: relative;
     display: flex;
     flex-direction: row;
+    margin-top: 32px;
 }
 
 .days {
@@ -90,27 +124,6 @@
     background-color: red;
 }
 
-/* .container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-} */
-
-/* .msg_slider {
-    height: 24px;
-    overflow: hidden;
-    position: relative;
-}
-
-.msg_list {
-    position: absolute;  이걸 설정해줘야 돌아감
-    bottom: 0;
-}
-
-.msg_item {
-    margin-top: 5px;
-} */
-
 .msg_slider {
     height: 35px;
     width: 290px;
@@ -122,4 +135,10 @@
 
 .msg_item {
     margin: 5px;
+}
+
+.cal_todo {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
