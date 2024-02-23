@@ -1,82 +1,88 @@
 <!DOCTYPE html>
-<html lang="ko, js">
+<html lang="ko, ja">
 <head>
     <meta charset="UTF-8">
     <title>Calendar + D-DAY + To-Do-List</title>
     <link rel="stylesheet" href="./index.css">
 </head>
 <body>
-    <!-- d-day -->
-    <div class="top_nav">
-        <div>
-            <button onclick="insertDday()" class="dday_btn">d-day 입력🎯</button>
-            <div class="dday"></div>
-            <button onclick="modifyDday()" class="dday_btn_mod">수정🎯</button>
-            <button onclick="deleteDday()" class="dday_btn_del">삭제🎯</button>
-        </div>
-        <div class="dday_popup">
+    <div class="content">
+        <!-- d-day -->
+        <div class="top_nav">
             <div>
-                <span>목표 : </span>
-                <input type="text"  class="dday_text" max="10">
+                <button onclick="insertDday()" class="dday_btn">D-DAY</button>
+                <div class="dday"></div>
+                <button onclick="modifyDday()" class="dday_btn_mod">수정🎯</button>
+                <button onclick="deleteDday()" class="dday_btn_del">삭제🎯</button>
             </div>
-            <div>
-                <input type="date" class="dday_date">
-            </div>
-            <button onclick="insertDdayOk()" class="dday_ok_btn">확인</button>
-            <button onclick="insertDdayCancel()" class="dday_ok_btn">취소</button>
-        </div>
-        <!-- msg_bar -->
-        <div class="msg_slider">
-            <ul class="msg_list">
-                <li class="msg_item">
-                    <p>🌞晴天には散歩します</p>
-                </li>
-                <li class="msg_item">
-                    <p>👻雨の日にはホラー映画を見ます</p>
-                </li>
-                <li class="msg_item">
-                    <p>⛅霧の日は運転に気をつけてください</p>
-                </li>
-                <li class="msg_item">
-                    <p>🧊寒い日には家にいます</p>
-                </li>
-            </ul>
-        </div>
-    </div>
-    <div class="cal_todo">
-        <!-- calendar -->
-        <div class="calendar">
-            <div class="cal_nav">
-                <div onclick="previousCal()" class="cal_pre_btn">◀</div>
-                <div class="cal_year_month"></div>
-                <div onclick="nextCal()" class="cal_next_btn">▶</div>
-                <div onclick="todayCal()" class="cal_today_btn">TODAY</div>
-            </div>
-            <div class="cal_content">
-                <div class="cal_main">
-                    <div class="days">
-                        <div class="day">日</div>
-                        <div class="day">月</div>
-                        <div class="day">火</div>
-                        <div class="day">水</div>
-                        <div class="day">木</div>
-                        <div class="day">金</div>
-                        <div class="day">土</div>
-                    </div>    
-                    <div class="dates"></div>
+            <div class="dday_popup">
+                <div>
+                    <p>目標 </p>
+                    <input type="text"  class="dday_text" max="10"> 
                 </div>
-            </div>    
-        </div>
-        <div class="to_do">
-            <div class="to_do_title">TO DO LIST 입니당</div>
-            <div class="result"></div>
-            <div class="to_do_text">
-                <input type="text" class="addValue" placeholder="할 일 추가하기">
+                <div>
+                    <p>目標日</p>
+                    <input type="date" class="dday_date">
+                </div>
+                <div>
+                    <button onclick="insertDdayOk()" class="dday_ok_btn">확인</button>
+                    <button onclick="insertDdayCancel()" class="dday_ok_btn">취소</button>
+                </div>
+            </div>   
+            <!-- msg_bar -->
+            <div class="msg_slider">
+                <ul class="msg_list">
+                    <li class="msg_item">
+                        <p>🌞晴天には散歩します</p>
+                    </li>
+                    <li class="msg_item">
+                        <p>👻雨の日にはホラー映画を見ます</p>
+                    </li>
+                    <li class="msg_item">
+                        <p>⛅霧の日は運転に気をつけてください</p>
+                    </li>
+                    <li class="msg_item">
+                        <p>🧊寒い日には家にいます</p>
+                    </li>
+                </ul>
             </div>
-            <button class="plus_btn" onclick="addTask()">➕</button>
         </div>
+        <div class="cal_todo">
+            <!-- calendar -->
+            <div class="calendar">
+                <div class="cal_nav">
+                    <div onclick="previousCal()" class="cal_pre_btn">◀</div>
+                    <div class="cal_year_month"></div>
+                    <div onclick="nextCal()" class="cal_next_btn">▶</div>
+                    <div onclick="todayCal()" class="cal_today_btn">TODAY</div>
+                </div>
+                <div class="cal_content">
+                    <div class="cal_main">
+                        <div class="days">
+                            <div class="day">日</div>
+                            <div class="day">月</div>
+                            <div class="day">火</div>
+                            <div class="day">水</div>
+                            <div class="day">木</div>
+                            <div class="day">金</div>
+                            <div class="day">土</div>
+                        </div>    
+                        <div class="dates"></div>
+                    </div>
+                </div>    
+            </div>
+            <div class="to_do">
+                <div class="to_do_title">TO DO LIST 입니당</div>
+                <div class="result"></div>
+                <div class="to_do_text">
+                    <input type="text" class="addValue" placeholder="할 일 추가하기">
+                </div>
+                <button class="plus_btn" onclick="addTask()">➕</button>
+            </div>
+        </div>
+        <div class="list_bar"></div>
     </div>
-    <div class="list_bar"></div>
+    <div class="bck"></div>
     <script src="./d-day.js"></script>
     <script src="./calendar.js"></script>
     <script src="./msg.js"></script>

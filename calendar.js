@@ -49,7 +49,11 @@ function renderCalendar() {
         const condition = i >= firstDateIndex && i < lastDateIndex + 1
                           ? 'this'
                           : 'other';
-        dates[i] = `<div class="date"><span class=${condition}>${date}</span></div>`;
+        if (date < 10) {
+            dates[i] = `<div class="date"><span class=${condition}>&nbsp;${date}</span></div>`;
+        } else {
+            dates[i] = `<div class="date"><span class=${condition}>${date}</span></div>`;
+        }
     });
 
     // join('') 쓰면은 dates 사이에 아무 것도 없음
