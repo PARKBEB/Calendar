@@ -159,18 +159,18 @@ body {
 
 .bck {
     position: absolute;
-    z-index: 5;
+    z-index: 4;
     top: 0;
     background-color: black;
     opacity: 0.7;
     width: 100%;
     height: 100%;
-    display: none;
+    display:none;
 }
 
 .dday_popup {
     width: 550px;
-    height: 350px;
+    height: 420px;
     background-color: #FADCC6;
     position: absolute;
     z-index: 2;
@@ -182,6 +182,7 @@ body {
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
+    z-index: 5;
 }
 
 .dday_text {
@@ -196,5 +197,19 @@ body {
 }
 
 .dday_popup button {
-    font-size: 30px;
+    font-size: 25px;
+    font-weight: 500;
+    width: 140px;
+    height: 50px;
+    border-radius: 30px;
+    color: white;
+    border: none;
+}
+
+.dday_ok_btn {
+    background-color: #FF9A51;
+}
+
+.dday_cancel_btn {
+    background-color: #FF5151;
 }
