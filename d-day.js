@@ -10,7 +10,7 @@ let ddayDateInput = document.querySelector('.dday_date');
 let today = new Date();
 
 function insertDday() {
-    modal.style.display = "block";
+    modal.style.display = "flex";
     addButton.style.display = "none";
     document.querySelector('.dday_text').value = "";
     document.querySelector('.dday_date').value = "";
