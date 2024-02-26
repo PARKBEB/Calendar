@@ -1,6 +1,8 @@
 let date = new Date();
 let selectDate;
 let sum = 0;
+let calendar = document.querySelector('.calendar');
+let calMain = document.querySelector('.cal_main');
 
 let listBar = document.querySelector('.list_bar');
 
@@ -70,6 +72,10 @@ function renderCalendar() {
     function toDO() {
         let todoModal = document.querySelector('.to_do');
         todoModal.style.display = todoModal.style.display === "block" ? "none" : "block";
+        todoModal.style.display = todoModal.style.display === "none" ? calendar.style.width = "1669px" : calendar.style = "width: 767px;", calMain.style = "width: 700px; margin:left: 10px;",
+                                                                                                        document.querySelectorAll('.day').forEach(function(day) {
+                                                                                                            day.style.marginRight = "10px";
+                                                                                                        });
     }
 
     // today 날짜 색깔 표시

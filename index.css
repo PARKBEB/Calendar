@@ -122,9 +122,10 @@ body {
 
 .to_do {
     display: none;
-    width: 100%;
-    height: 300px;
-    background-color: red;
+    width: 767px;
+    height: 810px;
+    background-color: white;
+    border-radius: 30px;
 }
 
 .msg_slider {
