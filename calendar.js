@@ -3,6 +3,10 @@ let selectDate;
 let sum = 0;
 let calendar = document.querySelector('.calendar');
 let calMain = document.querySelector('.cal_main');
+let calYearMonth = document.querySelector('.cal_year_month');
+let calTodayBtn = document.querySelector('.cal_today_btn');
+let calNav = document.querySelector('.cal_nav');
+let calTodo = document.querySelector('.cal_todo');
 
 let listBar = document.querySelector('.list_bar');
 
@@ -71,11 +75,30 @@ function renderCalendar() {
 
     function toDO() {
         let todoModal = document.querySelector('.to_do');
-        todoModal.style.display = todoModal.style.display === "block" ? "none" : "block";
-        todoModal.style.display = todoModal.style.display === "none" ? calendar.style.width = "1669px" : calendar.style = "width: 767px;", calMain.style = "width: 700px; margin:left: 10px;",
-                                                                                                        document.querySelectorAll('.day').forEach(function(day) {
-                                                                                                            day.style.marginRight = "10px";
-                                                                                                        });
+        todoModal.style.display = todoModal.style.display === "none" ? "block" : "none";
+
+        // 캘린더와 캘린더의 하위 요소들의 스타일 설정
+        if (todoModal.style.display === "none") {
+            calendar.style.width = "1669px";
+            calMain.style.width = "1300px";
+            calMain.style.margin = "0 0 0 120px";
+            calYearMonth.style.margin = "0 260px";
+            calTodayBtn.style.marginLeft = "223px";
+            calNav.style.margin = "51px 55px 81px 361px";
+        } else {
+            calendar.style.width = "767px";
+            calMain.style.width = "700px";
+            calMain.style.marginRight = "50px";
+            calYearMonth.style.margin = "0 60px 0 74px";
+            calTodayBtn.style.marginLeft = "20px";
+            calNav.style.marginLeft = "70px";
+            calTodo.style.justifyContent = "space-evenly";
+
+            // 모든 .day 클래스를 가진 요소의 우측 여백 설정
+            document.querySelectorAll('.day').forEach(function(day) {
+                day.style.marginRight = "10px";
+            });
+        }
     }
 
     // today 날짜 색깔 표시
