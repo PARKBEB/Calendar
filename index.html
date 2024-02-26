@@ -11,9 +11,10 @@
         <div class="top_nav">
             <div>
                 <button onclick="insertDday()" class="dday_btn">D-DAY</button>
-                <div class="dday"></div>
-                <button onclick="modifyDday()" class="dday_btn_mod">수정🎯</button>
-                <button onclick="deleteDday()" class="dday_btn_del">삭제🎯</button>
+                <div class="dday" onclick="changeDday()">
+                    <span class="dday_result"></span>
+                    <span class="dday_info"></span>
+                </div>
             </div>
             <div class="dday_popup">
                 <div>
@@ -24,9 +25,13 @@
                     <p>目標日</p>
                     <input type="date" class="dday_date">
                 </div>
-                <div>
+                <div class="btn1">
                     <button onclick="insertDdayOk()" class="dday_ok_btn">OK</button>&nbsp;&nbsp;&nbsp;&nbsp;
                     <button onclick="insertDdayCancel()" class="dday_cancel_btn">CANCEL</button>
+                </div>
+                <div class="btn2">
+                    <button onclick="insertDdayOk()" class="dday_btn_mod">修正</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button onclick="deleteDday()" class="dday_btn_del">削除</button>
                 </div>
             </div>   
             <!-- msg_bar -->

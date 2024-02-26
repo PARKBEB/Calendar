@@ -1,28 +1,29 @@
 let modal = document.querySelector('.dday_popup');
 let addButton = document.querySelector('.dday_btn');
-let modifyButton = document.querySelector('.dday_btn_mod');
-let deleteButton = document.querySelector('.dday_btn_del');
 let dday = document.querySelector('.dday');
 let ddayTextInput = document.querySelector('.dday_text');
 let ddayDateInput = document.querySelector('.dday_date');
+let btn1 = document.querySelector('.btn1');
+let btn2 = document.querySelector('.btn2');
+let ddayResult = document.querySelector('.dday_result');
+let ddayInfo = document.querySelector('.dday_info');
 
 // 날짜 추출
 let today = new Date();
 
 function insertDday() {
     modal.style.display = "flex";
-    addButton.style.display = "none";
     document.querySelector('.dday_text').value = "";
     document.querySelector('.dday_date').value = "";
+    btn2.style.display = "none";
+    btn1.style.display = "block";
 }
 
 function insertDdayOk() {
-    addButton.style.display = "none";
-
     ddayTextInput = document.querySelector('.dday_text').value; // input태그는 value로 값을 가져옴
     ddayDateInput = document.querySelector('.dday_date').value;
     let date_insert = new Date(ddayDateInput);
-    
+
     // date_insert가 Tue Feb 06 2024 17:36:07 GMT+0900 (한국 표준시) 시간이 9시로 고정되서 표현되서 아래 써줘여함
     date_insert.setHours(today.getHours());
     date_insert.setMinutes(today.getMinutes());
@@ -37,48 +38,43 @@ function insertDdayOk() {
         alert("오늘 이후에 날짜를 입력해주세요");
         document.querySelector('.dday_text').value = "";
         document.querySelector('.dday_date').value = "";
-        modal.style.display = "block";
+        modal.style.display = "flex";
     } else if (differenceInDays == 0) {
-        dday.innerText = ddayTextInput + "🎊D-DAY!🎊";
+        ddayResult.innerText = ddayTextInput + " " + "🎊D-DAY!🎊";
         modal.style.display = "none";
-        modifyButton.style.display = "block"
-        deleteButton.style.display = "block"
+        addButton.style.display= "none";
+        ddayInfo.innerText = ""
+        dday.style.display = "block";
     } else if (differenceInDays < 0) {
         differenceInDays = -differenceInDays;
-        dday.innerText = ddayTextInput + " " + "D+" + differenceInDays + "\n 날짜가 지났습니다.";
+        ddayResult.innerText = ddayTextInput + " " + "D+" + differenceInDays;
+        ddayInfo.innerText = "❗日付が過ぎました";
         modal.style.display = "none";
-        modifyButton.style.display = "block";
-        deleteButton.style.display = "block";
+        addButton.style.display= "none";
+        dday.style.display = "block";
     } else {
-        dday.innerText = ddayTextInput + " " + "D-" + differenceInDays;
+        ddayResult.innerText = ddayTextInput + " " + "D+" + differenceInDays;
+        dday.style.display = "block";
         modal.style.display = "none";
-        modifyButton.style.display = "block"
-        deleteButton.style.display = "block"
+        addButton.style.display= "none";
     }
 }
 
 function insertDdayCancel() {
-    if (dday.innerText == "") {
-        modal.style.display = "none";
-        addButton.style.display = "block";
-    } else {
-        modal.style.display = "none";
-        addButton.style.display = "none";
-        modifyButton.style.display = "block";
-        deleteButton.style.display = "block";
-    }
-}
-
-function modifyDday() {
-    dday.innerText = "";
-    modal.style.display = "block";
-    modifyButton.style.display = "none";
-    deleteButton.style.display = "none";
+    modal.style.display = "none";
+    addButton.style.display = "block";
 }
 
 function deleteDday() {
     addButton.style.display = "block";
-    modifyButton.style.display = "none";
-    deleteButton.style.display = "none";
     dday.innerText = "";
+    modal.style.display = "none";
+    ddayTextInput = "";
+    ddayDateInput = "";
+}
+
+function changeDday() {
+    modal.style.display = "flex";
+    btn2.style.display = "block";
+    btn1.style.display = "none";
 }

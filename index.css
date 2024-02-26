@@ -31,14 +31,6 @@ body {
     display: none;
 }
 
-.dday_btn_mod {
-    display: none;
-}
-
-.dday_btn_del {
-    display: none;
-}
-
 /* calendar */
 .calendar {
     width: 1669px;
@@ -178,26 +170,27 @@ body {
     left: 34%;
     border-radius: 10px;
     font-size: 40px;
-    display: flex;
+    display: none;
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
     z-index: 5;
 }
 
-.dday_text {
+.dday_popup .dday_text {
     height: 40px;
     width: 400px;
     font-size: 30px;
 }
 
-.dday_date {
+.dday_popup .dday_date {
     height: 40px;
     width: 400px;
     font-size: 20px;
 }
 
-.dday_popup button {
+.dday_popup .btn1 button,
+.dday_popup .btn2 button {
     font-size: 25px;
     font-weight: 500;
     width: 140px;
@@ -213,4 +206,31 @@ body {
 
 .dday_cancel_btn {
     background-color: #FF5151;
+}
+
+.dday_btn_mod {
+    background-color: #7AA66B;
+}
+
+.dday_btn_del {
+    background-color: #FF7151;
+}
+
+.dday {
+    display: none;
+}
+
+.dday_result {
+    height: 67px;
+    font-size: 40px;
+    text-align: center;
+    background-color: white;
+    border-radius: 30px;
+    display: inline-block;
+    padding: 0 20px;
+}
+
+.dday_info {
+    font-size: 25px;
+    color: #E13B3B;
 }
