@@ -53,8 +53,9 @@ function insertDdayOk() {
         addButton.style.display= "none";
         dday.style.display = "block";
     } else {
-        ddayResult.innerText = ddayTextInput + " " + "D+" + differenceInDays;
+        ddayResult.innerText = ddayTextInput + " " + "D-" + differenceInDays;
         dday.style.display = "block";
+        ddayInfo.innerText = "";
         modal.style.display = "none";
         addButton.style.display= "none";
     }

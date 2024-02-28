@@ -7,6 +7,7 @@ let calYearMonth = document.querySelector('.cal_year_month');
 let calTodayBtn = document.querySelector('.cal_today_btn');
 let calNav = document.querySelector('.cal_nav');
 let calTodo = document.querySelector('.cal_todo');
+let todo2 = document.querySelector('.todo2');
 
 let listBar = document.querySelector('.list_bar');
 
@@ -77,6 +78,14 @@ function renderCalendar() {
         let todoModal = document.querySelector('.to_do');
         todoModal.style.display = todoModal.style.display === "none" ? "block" : "none";
 
+        let year = date.getFullYear();
+        let month = ('0' + (date.getMonth() + 1)).slice(-2); // 월은 0부터 시작하므로 1을 더하고 2자리로 포맷팅
+        let day = ('0' + date.getDate()).slice(-2); // 일자를 2자리로 포맷팅
+        // 월, 일, 년을 조합하여 원하는 형식의 날짜 문자열 생성
+        let todoDate = `${year}.${month}.${day}`;
+
+        todo2.innerHTML = todoDate;
+
         // 캘린더와 캘린더의 하위 요소들의 스타일 설정
         if (todoModal.style.display === "none") {
             calendar.style.width = "1669px";
@@ -89,8 +98,8 @@ function renderCalendar() {
             calendar.style.width = "767px";
             calMain.style.width = "700px";
             calMain.style.marginRight = "50px";
-            calYearMonth.style.margin = "0 60px 0 74px";
-            calTodayBtn.style.marginLeft = "20px";
+            calYearMonth.style.margin = "0 50px 0 74px";
+            calTodayBtn.style.marginLeft = "50px";
             calNav.style.marginLeft = "70px";
             calTodo.style.justifyContent = "space-evenly";
 
