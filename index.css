@@ -81,6 +81,7 @@ body {
     position: relative;
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
     margin-top: 32px;
 }
 
@@ -236,6 +237,7 @@ body {
     color: #E13B3B;
 }
 
+
 .to_do_title .todo1 {
     width: 205px;
     height: 63px;
@@ -247,4 +249,55 @@ body {
     text-align: center;
     line-height: 63px;
     display: inline-block;
+}
+
+.todo1 {
+    display: inline;
+    margin: 20px 117px 0 281px;
+}
+
+.todo2 {
+    display: inline;
+    font-size: 24px;
+    color: #726D6D;
+}
+
+.addValue {
+    width: 580px;
+    height: 52px;
+    font-size: 25px;
+    font-weight: 700;
+    color: gray;
+    border-top: none; 
+    border-right: none; 
+    border-bottom: 2px solid gray; 
+    border-left: none; 
+}
+
+.plus_btn {
+    display: inline-block;
+    font-size: 35px;
+    margin-left: 15px;
+    color: red;
+}
+
+.to_do_text {
+    position: fixed;
+    top: 710px; 
+    right: 170px;
+}
+
+.result .container {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 52px 5px 70px;
+}
+
+.task {
+    font-size: 30px;
+    display: inline-block;
+}
+
+.del_btn {
+    font-size: 30px;
 }

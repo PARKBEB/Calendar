@@ -102,6 +102,7 @@ function renderCalendar() {
             calYearMonth.style.margin = "0 260px";
             calTodayBtn.style.marginLeft = "223px";
             calNav.style.margin = "51px 55px 81px 361px";
+            calTodo.style.justifyContent = "";
         } else {
             calendar.style.width = "767px";
             calMain.style.width = "700px";
@@ -168,9 +169,10 @@ function renderCalendar() {
             let a;
 
             if (json.length > 0) {
-                date.style.background = "red";
+                date.querySelector('.this').style = "border-top: 4px solid #70947E; width: 43px; color: #70947E;" 
+                //date.querySelector('.this').style = "background: #70947E; color: white; border-radius: 100%; width: 60px; padding-left: 8px;""
             } else {
-                date.style.background = "white";
+                date.style = "background: white; color: black;"
             }
 
             if (hLength !== 0) {
@@ -181,11 +183,9 @@ function renderCalendar() {
             taskAll.forEach(function(task) {
                 task.addEventListener('click', function(event) {
                     let bool = event.target.dataset.bool
-                    console.log("그냥입니당"+selectDate);
 
-          
                         // 스타일 변경하기
-                        if (bool === 'false') {
+                        if (bool === 'false') {         // 왜 false 일까나
                             task.style.color = "black";
                             task.style.textDecoration = "none";
 
@@ -193,12 +193,14 @@ function renderCalendar() {
 
                             sum -=  a
                             listBar.style.width = `${sum}px`;
+                            console.log("s1 : " + sum);
                         } else {
                             task.style.color = "gray";
                             task.style.textDecoration = "line-through";
 
                             sum += a; 
                             listBar.style.width = `${sum}px`;
+                            console.log("s2 : " + sum);
                             listBar.style.height = "50px";
                             listBar.style.background = "blue";
 
