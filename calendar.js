@@ -71,20 +71,28 @@ function renderCalendar() {
     // 이벤트 리스너를 각 .date 요소에 추가
     let toDoDate = document.querySelectorAll('.date');
     toDoDate.forEach(function(date) {
-        date.addEventListener('click', toDO);
+        let dateText = date.innerText.replace(/&nbsp;/g, '').trim(); // 한자리수는 /&nbsp;/이것땜에 공백있어서 이렇게 처리해줘야 앞에 '0'이 추가됨
+        date.addEventListener('click', function(event) {
+            event.preventDefault(); // 이벤트 기본 동작 중지
+            if (!date.querySelector('.other')) {
+                toDO(date, dateText);
+            } else {
+                alert("해당 월에 날짜를 선택해주세요!");
+            }
+        });
     });
 
-    function toDO() {
+    function toDO(date, dateText) {
         let todoModal = document.querySelector('.to_do');
         todoModal.style.display = todoModal.style.display === "none" ? "block" : "none";
 
-        let year = date.getFullYear();
-        let month = ('0' + (date.getMonth() + 1)).slice(-2); // 월은 0부터 시작하므로 1을 더하고 2자리로 포맷팅
-        let day = ('0' + date.getDate()).slice(-2); // 일자를 2자리로 포맷팅
-        // 월, 일, 년을 조합하여 원하는 형식의 날짜 문자열 생성
-        let todoDate = `${year}.${month}.${day}`;
+        if (date.querySelector('.this')) {
+            let month =  ("0" + String(viewMonth + 1)).slice(-2);
+            let d = ("0" + dateText).slice(-2);
+            todo2.innerText = `${String(viewYear)}.${month}.${d}`;
+        }
 
-        todo2.innerHTML = todoDate;
+        console.log(date.querySelector('.dateText'));
 
         // 캘린더와 캘린더의 하위 요소들의 스타일 설정
         if (todoModal.style.display === "none") {
@@ -120,7 +128,7 @@ function renderCalendar() {
 
     if (viewMonth === today.getMonth() && viewYear === today.getFullYear()) {
         for (let i = 0; i < dates.length; i++) {
-            if (parseInt(curDays[i].innerText) === today.getDate()) {
+            if (parseInt(curDays[i].innerText) === today.getDate() && curDays[i].querySelector('.this')) { // 이거 안하면 저번달 28일 이번달 28일 중 저번달 28일 표시됨
                 curDays[i].classList.add('current-date');
 
                 break;
@@ -259,8 +267,6 @@ function renderCalendar() {
             });
         });
     } 
-
-
 }
 
 renderCalendar();
