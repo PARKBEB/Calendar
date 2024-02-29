@@ -313,12 +313,13 @@ function createDeleteButton() {
 }
 
     function createClearButton(selectDate) {
-        let task = document.createElement("p");       
-        task.innerHTML = addValueInput.value;
-        task.classList.add('task');
-
         let s = selectDate.slice(-2);
-        console.log("확인:" + s);
+
+        document.querySelectorAll('.date').forEach(function(date) {
+            if(date.innerText === s) {
+                date.querySelector('.this').style = "border-top: 4px solid #70947E; width: 43px; color: #70947E;  margin-top: -4px;"
+            }
+        })
 
         const data = {
             "todo": addValueInput.value,
@@ -335,9 +336,6 @@ function createDeleteButton() {
         })
         .then(response => response.json())
         .then(json => console.log(json))
-        .catch(error => console.error('Fetch Error:', error));
-
-        return task;
     }
 
 // 삭제 경우에는 이벤트 핸들러가 등록되는 시점에서 해당 요소가 존재하지 않을 때 
@@ -345,17 +343,7 @@ function addTask() {
     if (addValueInput.value === "") {
         alert("내용 입력 하삼");
     } else if (taskElements.length < 10) {
-        let container = document.createElement("div");
-        container.classList.add('container');
-
-        let task = createClearButton(selectDate);
-        container.appendChild(task); // 추가된 할일에 할일 리스트 추가하기 
-        
-        let delButton = createDeleteButton(); // 삭제 버튼 생성
-        container.appendChild(delButton); // 삭제 버튼을 container에 추가
-        
-        taskList.appendChild(container);
-        addValueInput.value = "";
+        createClearButton(selectDate);
     } else {
         alert("10개 이하 등록해야함");
         addValueInput.value = "";
