@@ -277,27 +277,43 @@ body {
 .plus_btn {
     display: inline-block;
     font-size: 35px;
-    margin-left: 15px;
+    margin-left: 18px;
     color: red;
 }
 
 .to_do_text {
-    position: fixed;
-    top: 710px; 
-    right: 170px;
+    margin-left: 73px; 
 }
 
 .result .container {
     display: flex;
     justify-content: space-between;
-    margin: 0 52px 5px 70px;
+    margin: 10px 52px 12px 70px;
 }
 
 .task {
-    font-size: 30px;
+    font-size: 25px;
     display: inline-block;
 }
 
 .del_btn {
-    font-size: 30px;
+    font-size: 25px;
+}
+
+.list_top {
+    width: 770px;
+    height: 90px;
+    border: 5px solid black;
+    display: none;
+    border-radius: 50px;
+}
+
+.list_bar {
+    border-radius: 50px;    
+}
+
+.list_icon {
+    font-size: 40px;
+    display: none;
+    margin: 7px;
 }

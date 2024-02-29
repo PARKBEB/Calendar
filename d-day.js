@@ -7,12 +7,14 @@ let btn1 = document.querySelector('.btn1');
 let btn2 = document.querySelector('.btn2');
 let ddayResult = document.querySelector('.dday_result');
 let ddayInfo = document.querySelector('.dday_info');
+let bck = document.querySelector('.bck')
 
 // 날짜 추출
 let today = new Date();
 
 function insertDday() {
     modal.style.display = "flex";
+    bck.style.display = "block";
     document.querySelector('.dday_text').value = "";
     document.querySelector('.dday_date').value = "";
     btn2.style.display = "none";
@@ -23,6 +25,7 @@ function insertDdayOk() {
     ddayTextInput = document.querySelector('.dday_text').value; // input태그는 value로 값을 가져옴
     ddayDateInput = document.querySelector('.dday_date').value;
     let date_insert = new Date(ddayDateInput);
+    bck.style.display = "none";
 
     // date_insert가 Tue Feb 06 2024 17:36:07 GMT+0900 (한국 표준시) 시간이 9시로 고정되서 표현되서 아래 써줘여함
     date_insert.setHours(today.getHours());
@@ -64,6 +67,7 @@ function insertDdayOk() {
 function insertDdayCancel() {
     modal.style.display = "none";
     addButton.style.display = "block";
+    bck.style.display = "none";
 }
 
 function deleteDday() {
@@ -72,10 +76,12 @@ function deleteDday() {
     modal.style.display = "none";
     ddayTextInput = "";
     ddayDateInput = "";
+    bck.style.display = "none";
 }
 
 function changeDday() {
     modal.style.display = "flex";
     btn2.style.display = "block";
     btn1.style.display = "none";
+    bck.style.display = "none";
 }

@@ -8,8 +8,11 @@ let calTodayBtn = document.querySelector('.cal_today_btn');
 let calNav = document.querySelector('.cal_nav');
 let calTodo = document.querySelector('.cal_todo');
 let todo2 = document.querySelector('.todo2');
+let taskList = document.querySelector(".result");
 
 let listBar = document.querySelector('.list_bar');
+let listTop = document.querySelector('.list_top');
+let listIcon = document.querySelector('.list_icon');
 
 function renderCalendar() {
     
@@ -85,14 +88,14 @@ function renderCalendar() {
     function toDO(date, dateText) {
         let todoModal = document.querySelector('.to_do');
         todoModal.style.display = todoModal.style.display === "none" ? "block" : "none";
+        listTop.style.display = listTop.style.display === "none" ? "block" : "none";
+        listIcon.style.display = listIcon.style.display === "none" ? "block" : "none";
 
         if (date.querySelector('.this')) {
             let month =  ("0" + String(viewMonth + 1)).slice(-2);
             let d = ("0" + dateText).slice(-2);
             todo2.innerText = `${String(viewYear)}.${month}.${d}`;
         }
-
-        console.log(date.querySelector('.dateText'));
 
         // 캘린더와 캘린더의 하위 요소들의 스타일 설정
         if (todoModal.style.display === "none") {
@@ -161,22 +164,23 @@ function renderCalendar() {
                 </div>`;
 
                 h.push(todoWithButton);
-            }
+            } 
 
             document.querySelector('.result').innerHTML = h.join("");
             let hLength = h.length;
 
             let a;
 
+            //todo 있는날 표시
             if (json.length > 0) {
-                date.querySelector('.this').style = "border-top: 4px solid #70947E; width: 43px; color: #70947E;" 
+                date.querySelector('.this').style = "border-top: 4px solid #70947E; width: 43px; color: #70947E;  margin-top: -4px;" 
                 //date.querySelector('.this').style = "background: #70947E; color: white; border-radius: 100%; width: 60px; padding-left: 8px;""
             } else {
                 date.style = "background: white; color: black;"
             }
 
             if (hLength !== 0) {
-                a = Math.floor(100 / hLength);
+                a = Math.floor(766 / hLength);
             }
 
             let taskAll = document.querySelectorAll('.task');
@@ -193,6 +197,7 @@ function renderCalendar() {
 
                             sum -=  a
                             listBar.style.width = `${sum}px`;
+                            listIcon.style.marginLeft = `${sum - 40}px`;
                             console.log("s1 : " + sum);
                         } else {
                             task.style.color = "gray";
@@ -200,11 +205,13 @@ function renderCalendar() {
 
                             sum += a; 
                             listBar.style.width = `${sum}px`;
+                            listIcon.style.marginLeft = `${sum - 40}px`;
                             console.log("s2 : " + sum);
-                            listBar.style.height = "50px";
-                            listBar.style.background = "blue";
+                            listBar.style.height = "80px";
+                            listBar.style.background = "#487AFA";
 
                             task.dataset.bool = false;
+                            console.log("ㅇㅇ" + sum);
                         }
                 });
             });
@@ -289,8 +296,7 @@ function todayCal() {
 }
 
 let addValueInput = document.querySelector(".addValue");
-let taskList = document.querySelector(".result");
-let taskElements = taskList.getElementsByTagName("p");
+let taskElements = taskList.getElementsByTagName("span");
 
 // 이벤트 핸들러가 등록되는 시점은 JavaScript 코드에서 해당 이벤트 리스너가 추가되는 시점, 이 때 주로 이벤트 리스너를 추가하는 함수가 호출되는 시점이 됨. 만약 페이지가 로드될 때 존재하지 않는 요소에 이벤트를 추가하려면, 일반적으로 이벤트 리스너를 추가하는 JavaScript 코드가 해당 요소를 생성한 직후에 위치하도록 해야 함. 이렇게 함으로써 요소가 생성되고 이벤트가 바로 추가되므로 요소가 존재하지 않는 문제를 방지할 수 있음.
 function createDeleteButton() {
@@ -311,6 +317,9 @@ function createDeleteButton() {
         task.innerHTML = addValueInput.value;
         task.classList.add('task');
 
+        let s = selectDate.slice(-2);
+        console.log("확인:" + s);
+
         const data = {
             "todo": addValueInput.value,
             "date": selectDate,
@@ -325,22 +334,8 @@ function createDeleteButton() {
             }
         })
         .then(response => response.json())
-        .then(json => console.log(json));
-
-        task.addEventListener('click', function() {
-            // 현재 스타일 가져오기
-            let currentColor = task.style.color;
-            let currentTextDecoration = task.style.textDecoration;
-        
-            // 스타일 변경하기
-            if (currentColor === "gray" && currentTextDecoration === "line-through") {
-                task.style.color = "black";
-                task.style.textDecoration = "none";
-            } else {
-                task.style.color = "gray";
-                task.style.textDecoration = "line-through";
-            }
-        });
+        .then(json => console.log(json))
+        .catch(error => console.error('Fetch Error:', error));
 
         return task;
     }
