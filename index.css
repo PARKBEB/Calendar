@@ -18,6 +18,51 @@ body {
     margin: 62px 126px;
 }
 
+/* d-day */
+.dday_popup {
+    display: none;
+}
+
+.dim {
+    position: absolute;
+    z-index: 4;
+    top: 0;
+    background-color: black;
+    opacity: 0.7;
+    width: 100%;
+    height: 100%;
+    display:none;
+}
+
+.dday_popup {
+    width: 550px;
+    height: 420px;
+    background-color: #FADCC6;
+    position: absolute;
+    z-index: 2;
+    top: 35%; 
+    left: 34%;
+    border-radius: 10px;
+    font-size: 40px;
+    display: none;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    z-index: 5;
+}
+
+.dday_popup .dday_text {
+    height: 40px;
+    width: 400px;
+    font-size: 30px;
+}
+
+.dday_popup .dday_date {
+    height: 40px;
+    width: 400px;
+    font-size: 20px;
+}
+
 .dday_btn {
     width: 205px;
     height: 67px;
@@ -26,9 +71,74 @@ body {
     font-size: 40px;
 }
 
-/* d-day */
-.dday_popup {
+.dday_popup .btn1 button,
+.dday_popup .btn2 button {
+    font-size: 25px;
+    font-weight: 500;
+    width: 140px;
+    height: 50px;
+    border-radius: 30px;
+    color: white;
+    border: none;
+}
+
+.dday_ok_btn {
+    background-color: #FF9A51;
+}
+
+.dday_cancel_btn {
+    background-color: #FF5151;
+}
+
+.dday_btn_mod {
+    background-color: #7AA66B;
+}
+
+.dday_btn_del {
+    background-color: #FF7151;
+}
+
+.dday {
     display: none;
+}
+
+.dday_result {
+    height: 67px;
+    font-size: 40px;
+    text-align: center;
+    background-color: white;
+    border-radius: 30px;
+    display: inline-block;
+    padding: 0 20px;
+}
+
+.dday_info {
+    font-size: 25px;
+    color: #E13B3B;
+}
+
+/* msg_slider */
+.msg_slider {
+    background-color: white;
+    height: 67px;
+    width: 510px;
+    font-size: 28px;
+    font-weight: 500;
+    overflow: hidden;
+    border-radius: 30px;
+    border: none;
+    text-align: center;
+}
+
+.msg_item {
+    margin: 12px;
+}
+
+/* calendar + todo */
+.calendar_todo {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
 
 /* calendar */
@@ -121,6 +231,7 @@ body {
     flex-direction: row;
 }
 
+/* todo */
 .to_do {
     display: none;
     width: 767px;
@@ -129,116 +240,7 @@ body {
     border-radius: 30px;
 }
 
-.msg_slider {
-    background-color: white;
-    height: 67px;
-    width: 510px;
-    font-size: 28px;
-    font-weight: 500;
-    overflow: hidden;
-    border-radius: 30px;
-    border: none;
-    text-align: center;
-}
-
-.msg_item {
-    margin: 12px;
-}
-
-.cal_todo {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-}
-
-.bck {
-    position: absolute;
-    z-index: 4;
-    top: 0;
-    background-color: black;
-    opacity: 0.7;
-    width: 100%;
-    height: 100%;
-    display:none;
-}
-
-.dday_popup {
-    width: 550px;
-    height: 420px;
-    background-color: #FADCC6;
-    position: absolute;
-    z-index: 2;
-    top: 35%; 
-    left: 34%;
-    border-radius: 10px;
-    font-size: 40px;
-    display: none;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: center;
-    z-index: 5;
-}
-
-.dday_popup .dday_text {
-    height: 40px;
-    width: 400px;
-    font-size: 30px;
-}
-
-.dday_popup .dday_date {
-    height: 40px;
-    width: 400px;
-    font-size: 20px;
-}
-
-.dday_popup .btn1 button,
-.dday_popup .btn2 button {
-    font-size: 25px;
-    font-weight: 500;
-    width: 140px;
-    height: 50px;
-    border-radius: 30px;
-    color: white;
-    border: none;
-}
-
-.dday_ok_btn {
-    background-color: #FF9A51;
-}
-
-.dday_cancel_btn {
-    background-color: #FF5151;
-}
-
-.dday_btn_mod {
-    background-color: #7AA66B;
-}
-
-.dday_btn_del {
-    background-color: #FF7151;
-}
-
-.dday {
-    display: none;
-}
-
-.dday_result {
-    height: 67px;
-    font-size: 40px;
-    text-align: center;
-    background-color: white;
-    border-radius: 30px;
-    display: inline-block;
-    padding: 0 20px;
-}
-
-.dday_info {
-    font-size: 25px;
-    color: #E13B3B;
-}
-
-
-.to_do_title .todo1 {
+.todo_title .todo_title_text {
     width: 205px;
     height: 63px;
     font-size: 28px;
@@ -251,12 +253,12 @@ body {
     display: inline-block;
 }
 
-.todo1 {
+.todo_title_text {
     display: inline;
     margin: 20px 117px 0 281px;
 }
 
-.todo2 {
+.todo_title_date {
     display: inline;
     font-size: 24px;
     color: #726D6D;
@@ -266,7 +268,7 @@ body {
     width: 580px;
     height: 52px;
     font-size: 25px;
-    font-weight: 700;
+    font-weight: 500;
     color: gray;
     border-top: none; 
     border-right: none; 
@@ -281,7 +283,7 @@ body {
     color: red;
 }
 
-.to_do_text {
+.todo_add_text {
     margin-left: 73px; 
 }
 

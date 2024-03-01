@@ -6,8 +6,8 @@ let calMain = document.querySelector('.cal_main');
 let calYearMonth = document.querySelector('.cal_year_month');
 let calTodayBtn = document.querySelector('.cal_today_btn');
 let calNav = document.querySelector('.cal_nav');
-let calTodo = document.querySelector('.cal_todo');
-let todo2 = document.querySelector('.todo2');
+let calTodo = document.querySelector('.calendar_todo');
+let todoTitleDate = document.querySelector('.todo_title_date');
 let taskList = document.querySelector(".result");
 
 let listBar = document.querySelector('.list_bar');
@@ -94,7 +94,7 @@ function renderCalendar() {
         if (date.querySelector('.this')) {
             let month =  ("0" + String(viewMonth + 1)).slice(-2);
             let d = ("0" + dateText).slice(-2);
-            todo2.innerText = `${String(viewYear)}.${month}.${d}`;
+            todoTitleDate.innerText = `${String(viewYear)}.${month}.${d}`;
         }
 
         // 캘린더와 캘린더의 하위 요소들의 스타일 설정
@@ -315,12 +315,6 @@ function createDeleteButton() {
     function createClearButton(selectDate) {
         let s = selectDate.slice(-2);
 
-        document.querySelectorAll('.date').forEach(function(date) {
-            if(date.innerText === s) {
-                date.querySelector('.this').style = "border-top: 4px solid #70947E; width: 43px; color: #70947E;  margin-top: -4px;"
-            }
-        })
-
         const data = {
             "todo": addValueInput.value,
             "date": selectDate,
@@ -335,10 +329,14 @@ function createDeleteButton() {
             }
         })
         .then(response => response.json())
-        .then(json => console.log(json))
+        .then(  
+            document.querySelectorAll('.date').forEach(function(date) {
+            if(date.innerText === s) {
+                date.querySelector('.this').style = "border-top: 4px solid #70947E; width: 43px; color: #70947E;  margin-top: -4px;"
+            }
+        }))
     }
 
-// 삭제 경우에는 이벤트 핸들러가 등록되는 시점에서 해당 요소가 존재하지 않을 때 
 function addTask() {
     if (addValueInput.value === "") {
         alert("내용 입력 하삼");

@@ -7,9 +7,10 @@
 </head>
 <body>
     <div class="content">
-        <!-- d-day -->
+        <!-- nav -->
         <div class="top_nav">
-            <div>
+            <!-- d-day -->
+            <div class="dday_info">
                 <button onclick="insertDday()" class="dday_btn">D-DAY</button>
                 <div class="dday" onclick="changeDday()">
                     <span class="dday_result"></span>
@@ -34,7 +35,7 @@
                     <button onclick="deleteDday()" class="dday_btn_del">削除</button>
                 </div>
             </div>   
-            <!-- msg_bar -->
+            <!-- msg_slider -->
             <div class="msg_slider">
                 <ul class="msg_list">
                     <li class="msg_item">
@@ -52,7 +53,8 @@
                 </ul>
             </div>
         </div>
-        <div class="cal_todo">
+            <!-- calendar + todo -->
+        <div class="calendar_todo">
             <!-- calendar -->
             <div class="calendar">
                 <div class="cal_nav">
@@ -76,15 +78,16 @@
                     </div>
                 </div>    
             </div>
+              <!-- todo_list -->
             <div class="todo_bar">
                 <div class="to_do">
-                    <div class="to_do_title">
-                        <div class="todo1">TODO LIST</div>
-                        <div class="todo2"></div>
+                    <div class="todo_title">
+                        <div class="todo_title_text">TODO LIST</div>
+                        <div class="todo_title_date"></div>
                     </div>
                     <div class="result"></div>
-                    <div class="to_do_text">
-                        <input type="text" class="addValue" placeholder="할 일 추가하기">
+                    <div class="todo_add_text">
+                        <input type="text" class="addValue" placeholder="タスクを追加してください">
                         <div class="plus_btn" onclick="addTask()">➕</div>
                     </div>
                 </div>
@@ -95,7 +98,7 @@
             </div>
         </div>
     </div>
-    <div class="bck"></div>
+    <div class="dim"></div>
     <script src="./d-day.js"></script>
     <script src="./calendar.js"></script>
     <script src="./msg.js"></script>
