@@ -1,7 +1,3 @@
-// todo list에 sum 정보를 불러오는 법을 몰라서 게이지에 문제가 생김 >  현재는 일단 데이터 정보를 저장하지않음 
-// todo에서 삭제 눌러도 게이지 바에 반영되지않음 > 예) todo삭제해도 게이지바가 마이너스 되지않음 > 위와 비슷한 문제
-// 태스크 등록시 캘린더 날짜에 style변경함 하지만 새로고침하면 사라짐 > 캘린더가 랜더링될 떄 style이 사라짐 되야하는데 이게 안됨
-
 let calendar = document.querySelector('.calendar');
 let calMain = document.querySelector('.cal_main');
 let calYearMonth = document.querySelector('.cal_year_month');
@@ -66,7 +62,7 @@ function renderCalendar() {
                           ? 'this'
                           : 'other';
         if (date < 10) {
-            dates[i] = `<div class="date"><span class=${condition}>&nbsp;${date}</span></div>`;
+            dates[i] = `<div class="date"><span class=${condition}>${date}</span></div>`;
         } else {
             dates[i] = `<div class="date"><span class=${condition}>${date}</span></div>`;
         }
@@ -147,15 +143,66 @@ function renderCalendar() {
     }
 
     let DateList = document.querySelectorAll('.date');
- 
+
+    var currentYear = String(viewYear);
+    var currentMonth = String(String(viewMonth + 1)).padStart(2, "0");
 
     DateList.forEach(function(date) {
         date.addEventListener('click', function(){      
             listBar.style.width = "0px"; 
-            selectDate = String(viewYear) + String(viewMonth + 1) + date.innerText;
-            getData(selectDate,date);
-        });       
-    }); 
+            var currentDay = String(date.innerText).padStart(2, "0");
+            selectDate = currentYear + currentMonth + currentDay;
+            getData(selectDate, date);
+        });
+    });
+
+    var todoArray = new Array();
+
+    // 1. 캘린더 투두 리스트 체크(캘린더에 초록색) 저장 안됨
+    fetch('http://localhost:3000/data?date')
+    .then(response => response.json())
+    .then(json => {
+        for(const data of json) {
+            var dataDate = `${data.date}`;
+            var dataYear = dataDate.substring(0, 4);
+            var dataMonth = dataDate.substring(4, 6);
+            var dataDay = dataDate.substring(6);
+
+            if (currentYear == dataYear && currentMonth == dataMonth)
+            {
+                todoArray.push(dataDay);
+            }
+        }
+
+        var isStarted = false;
+        var isEnd = false;
+        
+        document.querySelectorAll('.date').forEach(function(date) {
+            if (isEnd)
+            {
+                return;
+            }
+
+            if (date.innerText == '1')
+            {
+                if (isStarted)
+                {
+                    isEnd = true;
+                }
+
+                isStarted = true;
+            }
+
+            if (!isStarted) return;
+            
+            var dateDay = String(date.innerText).padStart(2, "0");
+
+            if (todoArray.indexOf(dateDay) != -1)
+            {
+                date.style = "border-top: 4px solid #70947E; color: #70947E;"
+            }
+        });
+    });
 }
 
 renderCalendar();
@@ -178,27 +225,56 @@ function todayCal() {
 let addValueInput = document.querySelector(".addValue");
 let taskElements = taskList.getElementsByTagName("span");
 
+var m_falseCount = 0;
+
+function setProgress(taskLength) {
+    if (taskLength == 0)
+    {
+        listBar.style.width = '0%';
+        listIcon.style.marginLeft = listBar.style.width;
+    }
+    else
+    {
+        var percent = 100 / taskLength * m_falseCount;
+        listBar.style.width = percent + '%';
+        listIcon.style.marginLeft = listBar.style.width;
+        listBar.style.height = "80px";
+        listBar.style.background = "#487AFA";
+    }
+}
+
 function getData(selectDate, date) {
     addValueInput.value = "";
 
     fetch(`http://localhost:3000/data?date=${selectDate}`) 
     .then(response => response.json())
     .then(json => {
+        var falseCount = 0;        
+
         const h = [];
         for(const data of json) {
+            var htmlTask = `<div class="task" data-bool="${data.bool}">${data.todo}</div>`
+
+            if (`${data.bool}` == 'false')
+            {
+                htmlTask = `<div class="task" data-bool="${data.bool}" style="color : gray; text-decoration : line-through;">${data.todo}</div>`
+                falseCount++;
+            }
+
             let todoWithButton = `
             <div class="container" data-id="${data.id}" data-date="${data.date}">
-                <div class="task"  data-sum="${data.sum}" data-bool="${data.bool}" style="color: ${data.color}; text-decoration: ${data.textDecoration};">${data.todo}</div>
+                ` + htmlTask + `
                 <span class="del_btn" onclick="DeleteButton()">❌</span>
             </div>`;
+
             h.push(todoWithButton);
-        } 
+        }
+
+        m_falseCount = falseCount;
+
+        setProgress(json.length);
 
         taskList.innerHTML = h.join("");
-
-        let hLength = h.length;
-
-        let a;
 
         // todo 있는날 표시
 
@@ -208,63 +284,46 @@ function getData(selectDate, date) {
                     date.querySelector('.this').style = ""
                 }
             });
-        } 
-        // else {
-        //     date.querySelector('.this').style = "border-top: 4px solid #70947E; width: 43px; color: #70947E;  margin-top: -4px;"  
-        // }
-
-        if (hLength !== 0) {
-            a = Math.floor(762 / hLength);
         }
 
         let taskAll = document.querySelectorAll('.task');
-        let sum = 0;
 
         taskAll.forEach(function(task) {
             task.addEventListener('click', function(event) {
-                let bool = event.target.dataset.bool
-                // let taskID = event.target.parentNode.dataset.id
+                let bool = event.target.dataset.bool;
+                let taskID = event.target.parentNode.dataset.id;
 
-                if (bool === "false") {                 // 왜 false 일까나
+                if (bool === 'false') {
                     task.style.color = "black";
                     task.style.textDecoration = "none";
-
-                    sum -=  a
-                    listBar.style.width = `${sum}px`;
-                    listIcon.style.marginLeft = `${sum + 40}px`;
-
-                    bool = "true";
-                    event.target.dataset.bool = bool;  
-
+                    bool = true;
+                    m_falseCount--;
                 } else {
                     task.style.color = "gray";
                     task.style.textDecoration = "line-through";
-
-                    sum += a; 
-                    listBar.style.width = `${sum}px`;
-                    listIcon.style.marginLeft = `${sum - 40}px`;
-                    listBar.style.height = "80px";
-                    listBar.style.background = "#487AFA";
-
-                    bool = "false";
-                    event.target.dataset.bool = bool;  
+                    bool = false;
+                    m_falseCount++;
                 }
 
-                    // const data = {
-                    //     "todo": event.target.innerText,
-                    //     "date": selectDate,
-                    //     "bool": bool,
-                    //     "color": task.style.color,
-                    //     "textDecoration": task.style.textDecoration,
-                    // }
-                    // fetch(`http://localhost:3000/data/${taskID}`, { // 수정할 ID값
-                    //     method: "PUT",
-                    //     body: JSON.stringify(data), 
-                    //     headers: {
-                    //         "content-type": "application/json; charset=UTF-8;"
-                    //     }
-                    // })
-                    // .then(response => response.json())
+                setProgress(json.length);
+
+                event.target.dataset.bool = bool;
+
+                const data = {
+                    "todo": event.target.innerText,
+                    "date": selectDate,
+                    "bool": bool,
+                    //"color": task.style.color,
+                    // "textDecoration": task.style.textDecoration,
+                }
+                fetch(`http://localhost:3000/data/${taskID}`, { // 수정할 ID값
+                    method: "PUT",
+                    body: JSON.stringify(data), 
+                    headers: {
+                        "content-type": "application/json; charset=UTF-8;"
+                    }
+                })
+                .then(response => response.json())
             });    
         });
         
@@ -368,4 +427,3 @@ function addTask() {
         addValueInput.value = "";
     }
 }
-
