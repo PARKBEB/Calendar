@@ -83,5 +83,5 @@ function changeDday() {
     modal.style.display = "flex";
     btn2.style.display = "block";
     btn1.style.display = "none";
-    dim.style.display = "block";
+    dim.style.display = "none";
 }

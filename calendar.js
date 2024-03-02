@@ -1,25 +1,30 @@
-let date = new Date();
-let selectDate;
-let sum = 0;
+// 갖고 있는 문제 : todo list에 sum 정보를 불러오는 법을 몰라서 게이지에 문제가 생김 >  현재는 일단 데이터 정보를 저장하지않음
+// todo에서 삭제 눌러도 게이지 바에 반영되지않음 > 예) todo삭제해도 게이지바가 마이너스 되지않음
+
 let calendar = document.querySelector('.calendar');
 let calMain = document.querySelector('.cal_main');
 let calYearMonth = document.querySelector('.cal_year_month');
 let calTodayBtn = document.querySelector('.cal_today_btn');
 let calNav = document.querySelector('.cal_nav');
 let calTodo = document.querySelector('.calendar_todo');
+
 let todoTitleDate = document.querySelector('.todo_title_date');
 let taskList = document.querySelector(".result");
-
+let listChk = document.querySelector(".list_chk");
 let listBar = document.querySelector('.list_bar');
 let listTop = document.querySelector('.list_top');
 let listIcon = document.querySelector('.list_icon');
+        
+let date = new Date();
+let selectDate;
 
 function renderCalendar() {
     
+    // 달력 생성 시작
     const viewYear = date.getFullYear();
-    const viewMonth = date.getMonth(); // 왜 여기서 +1 한거랑 ${viewMonth + 1} 한거랑 차이가 있지
+    const viewMonth = date.getMonth();
 
-    document.querySelector('.cal_year_month').textContent = `${viewYear}年  ${(viewMonth + 1) < 10 ? '0' + (viewMonth + 1) : viewMonth + 1}月`;
+    calYearMonth.textContent = `${viewYear}年  ${(viewMonth + 1) < 10 ? '0' + (viewMonth + 1) : viewMonth + 1}月`;
 
     const preLast = new Date(viewYear, viewMonth, 0);      // 현재 월의 마지막 날
     const thisLast = new Date(viewYear, viewMonth + 1, 0); // 이전 월의 마지막 날
@@ -80,7 +85,7 @@ function renderCalendar() {
             if (!date.querySelector('.other')) {
                 toDO(date, dateText);
             } else {
-                alert("해당 월에 날짜를 선택해주세요!");
+                alert("今月の日付を選択してください");
             }
         });
     });
@@ -141,141 +146,15 @@ function renderCalendar() {
     }
 
     let DateList = document.querySelectorAll('.date');
-        
+ 
+
     DateList.forEach(function(date) {
         date.addEventListener('click', function(){      
             listBar.style.width = "0px"; 
-            sum = 0;
             selectDate = String(viewYear) + String(viewMonth + 1) + date.innerText;
-            getData(selectDate, date);
+            getData(selectDate,date);
         });       
-    });
-
-    function getData(selectDate, date) {
-        fetch(`http://localhost:3000/data?date=${selectDate}`) 
-        .then(response => response.json())
-        .then(json => {
-            const h = [];
-            for(const data of json) {
-                let todoWithButton = `
-                <div class="container" data-id="${data.id}" data-date="${data.date}">
-                    <div class="task" data-bool="${data.bool}">${data.todo}</div>
-                    <span class="del_btn">❌</span>
-                </div>`;
-
-                h.push(todoWithButton);
-            } 
-
-            document.querySelector('.result').innerHTML = h.join("");
-            let hLength = h.length;
-
-            let a;
-
-            //todo 있는날 표시
-            if (json.length > 0) {
-                date.querySelector('.this').style = "border-top: 4px solid #70947E; width: 43px; color: #70947E;  margin-top: -4px;" 
-                //date.querySelector('.this').style = "background: #70947E; color: white; border-radius: 100%; width: 60px; padding-left: 8px;""
-            } else {
-                date.style = "background: white; color: black;"
-            }
-
-            if (hLength !== 0) {
-                a = Math.floor(766 / hLength);
-            }
-
-            let taskAll = document.querySelectorAll('.task');
-            taskAll.forEach(function(task) {
-                task.addEventListener('click', function(event) {
-                    let bool = event.target.dataset.bool
-
-                        // 스타일 변경하기
-                        if (bool === 'false') {         // 왜 false 일까나
-                            task.style.color = "black";
-                            task.style.textDecoration = "none";
-
-                            task.dataset.bool = true;
-
-                            sum -=  a
-                            listBar.style.width = `${sum}px`;
-                            listIcon.style.marginLeft = `${sum - 40}px`;
-                            console.log("s1 : " + sum);
-                        } else {
-                            task.style.color = "gray";
-                            task.style.textDecoration = "line-through";
-
-                            sum += a; 
-                            listBar.style.width = `${sum}px`;
-                            listIcon.style.marginLeft = `${sum - 40}px`;
-                            console.log("s2 : " + sum);
-                            listBar.style.height = "80px";
-                            listBar.style.background = "#487AFA";
-
-                            task.dataset.bool = false;
-                            console.log("ㅇㅇ" + sum);
-                        }
-                });
-            });
-
-            let containers = document.querySelectorAll('.container');
-            let taskList = document.querySelector(".result");
-            
-            // drag & drop
-            containers.forEach(function(container) {
-                container.setAttribute("draggable", "true");
-                });
-                containers.forEach(function(dragEl) {
-                    dragEl.addEventListener('dragstart', function() {
-                        dragEl.classList.add('dragging');
-                        console.log("들었다");
-                    });
-            
-                    dragEl.addEventListener('dragend', function() {
-                        dragEl.classList.remove('dragging');
-                        console.log("놨다");
-                    });
-                });
-            
-                // offset이라는 변수가 상품의 중심 위치와 드래그한 위치 사이의 거리
-                function getDragAfterElement(y) {
-                    const draggableElements = [...taskList.querySelectorAll('.container:not(.dragging)')];
-            
-                    return draggableElements.reduce(function(closest, child) {
-                        const box = child.getBoundingClientRect();
-                        const offset = y - box.top - box.height / 2;
-                        if (offset < 0 && offset > closest.offset) {
-                            return { offset: offset, element: child };
-                        } else {
-                            return closest;
-                        }
-                    }, { offset: Number.NEGATIVE_INFINITY }).element; // 가장 작은 값의 요소
-                }
-            
-                containers.forEach(function(container) {
-                    container.addEventListener('dragover', function(e) {
-                        e.preventDefault();
-                        let afterElement = getDragAfterElement(e.clientY);
-                        let draggable = document.querySelector('.dragging');
-                        
-                        taskList.insertBefore(draggable, afterElement);
-                    });
-                });
-            
-            document.querySelector('.result').addEventListener('click', function(event) {     // 근데 왜 document.querySelector('.delButton')은 안될까
-                // fetch는 비동기 함수
-                if (event.target.classList.contains('del_btn')) {
-                let targetId = event.target.parentNode.dataset.id;   //parentNode이거랑 parentElement 차이가 
-    
-                    fetch(`http://localhost:3000/data/${targetId}`, {
-                        method: "DELETE",
-                    })
-                    .then(response => response.json())
-                    .then(json => console.log(json))
-
-                    event.target.parentNode.remove();
-                }
-            });
-        });
-    } 
+    }); 
 }
 
 renderCalendar();
@@ -298,52 +177,188 @@ function todayCal() {
 let addValueInput = document.querySelector(".addValue");
 let taskElements = taskList.getElementsByTagName("span");
 
-// 이벤트 핸들러가 등록되는 시점은 JavaScript 코드에서 해당 이벤트 리스너가 추가되는 시점, 이 때 주로 이벤트 리스너를 추가하는 함수가 호출되는 시점이 됨. 만약 페이지가 로드될 때 존재하지 않는 요소에 이벤트를 추가하려면, 일반적으로 이벤트 리스너를 추가하는 JavaScript 코드가 해당 요소를 생성한 직후에 위치하도록 해야 함. 이렇게 함으로써 요소가 생성되고 이벤트가 바로 추가되므로 요소가 존재하지 않는 문제를 방지할 수 있음.
-function createDeleteButton() {
-    let delButton = document.createElement('span');
-    delButton.innerHTML = "❌";
-    delButton.classList.add('del_btn');
+function getData(selectDate, date) {
+    addValueInput.value = "";
 
-    // 삭제 버튼에 이벤트 리스너 추가
-    delButton.addEventListener('click', function() {
-        delButton.parentNode.remove(); // 이벤트가 발생한 요소의 부모 노드를 삭제하여 버튼을 삭제합니다.
-    });
+    fetch(`http://localhost:3000/data?date=${selectDate}`) 
+    .then(response => response.json())
+    .then(json => {
+        const h = [];
+        for(const data of json) {
+            let todoWithButton = `
+            <div class="container" data-id="${data.id}" data-date="${data.date}">
+                <div class="task"  data-sum="${data.sum}" data-bool="${data.bool}" style="color: ${data.color}; text-decoration: ${data.textDecoration};">${data.todo}</div>
+                <span class="del_btn" onclick="DeleteButton()">❌</span>
+            </div>`;
+            h.push(todoWithButton);
+        } 
 
-    return delButton;
-}
+        taskList.innerHTML = h.join("");
 
-    function createClearButton(selectDate) {
-        let s = selectDate.slice(-2);
+        let hLength = h.length;
 
-        const data = {
-            "todo": addValueInput.value,
-            "date": selectDate,
-            "bool": true
+        let a;
+
+        // todo 있는날 표시
+        // if (json.length > 0) {
+        //     date.querySelector('.this').style = "border-top: 4px solid #70947E; width: 43px; color: #70947E;  margin-top: -4px;"
+        // } else 
+        if (json.length <= 0){
+            date.style = "";
         }
 
-        fetch("http://localhost:3000/data", {
-            method: "POST",
-            body: JSON.stringify(data), // 전송할 데이터를 문자열로 변환
-            headers: {
-                "content-type": "application/json; charset=UTF-8;"
+        if (hLength !== 0) {
+            a = Math.floor(766 / hLength);
+        }
+
+        let taskAll = document.querySelectorAll('.task');
+        let sum = 0;
+
+        taskAll.forEach(function(task) {
+            task.addEventListener('click', function(event) {
+                let bool = event.target.dataset.bool
+                let taskID = event.target.parentNode.dataset.id
+
+                if (bool === "false") {                 // 왜 false 일까나
+                    task.style.color = "black";
+                    task.style.textDecoration = "none";
+
+                    sum -=  a
+                    listBar.style.width = `${sum}px`;
+                    listIcon.style.marginLeft = `${sum + 40}px`;
+
+                    bool = "true";
+                    event.target.dataset.bool = bool;  
+
+                } else {
+                    task.style.color = "gray";
+                    task.style.textDecoration = "line-through";
+
+                    sum += a; 
+                    listBar.style.width = `${sum}px`;
+                    listIcon.style.marginLeft = `${sum - 40}px`;
+                    listBar.style.height = "80px";
+                    listBar.style.background = "#487AFA";
+
+                    bool = "false";
+                    event.target.dataset.bool = bool;  
+                }
+
+                    // const data = {
+                    //     "todo": event.target.innerText,
+                    //     "date": selectDate,
+                    //     "bool": bool,
+                    //     "color": task.style.color,
+                    //     "textDecoration": task.style.textDecoration,
+                    // }
+                    // fetch(`http://localhost:3000/data/${taskID}`, { // 수정할 ID값
+                    //     method: "PUT",
+                    //     body: JSON.stringify(data), 
+                    //     headers: {
+                    //         "content-type": "application/json; charset=UTF-8;"
+                    //     }
+                    // })
+                    // .then(response => response.json())
+            });    
+        });
+        
+        let containers = document.querySelectorAll('.container');
+        
+        // drag & drop <https://inpa.tistory.com/entry/%EB%93%9C%EB%9E%98%EA%B7%B8-%EC%95%A4-%EB%93%9C%EB%A1%AD-Drag-Drop-%EA%B8%B0%EB%8A%A5>
+        containers.forEach(function(container) {
+            container.setAttribute("draggable", "true");
+            });
+            containers.forEach(function(dragEl) {
+                dragEl.addEventListener('dragstart', function() {
+                    dragEl.classList.add('dragging');
+                    console.log("들었다");
+                });
+        
+                dragEl.addEventListener('dragend', function() {
+                    dragEl.classList.remove('dragging');
+                    console.log("놨다");
+                });
+            });
+        
+            // offset이라는 변수가 상품의 중심 위치와 드래그한 위치 사이의 거리
+            function getDragAfterElement(y) {
+                const draggableElements = [...taskList.querySelectorAll('.container:not(.dragging)')];
+        
+                return draggableElements.reduce(function(closest, child) {
+                    const box = child.getBoundingClientRect();
+                    const offset = y - box.top - box.height / 2;
+                    if (offset < 0 && offset > closest.offset) {
+                        return { offset: offset, element: child };
+                    } else {
+                        return closest;
+                    }
+                }, { offset: Number.NEGATIVE_INFINITY }).element; // 가장 작은 값의 요소
             }
-        })
-        .then(response => response.json())
-        .then(  
-            document.querySelectorAll('.date').forEach(function(date) {
-            if(date.innerText === s) {
-                date.querySelector('.this').style = "border-top: 4px solid #70947E; width: 43px; color: #70947E;  margin-top: -4px;"
-            }
-        }))
+        
+            containers.forEach(function(container) {
+                container.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    let afterElement = getDragAfterElement(e.clientY);
+                    let draggable = document.querySelector('.dragging');
+                    
+                    taskList.insertBefore(draggable, afterElement);
+                });
+            });
+    });
+}  
+
+function DeleteButton() {
+    taskList.addEventListener('click', function(event) {         
+        // fetch는 비동기 함수
+        if (event.target.classList.contains('del_btn')) {
+        let targetId = event.target.parentNode.dataset.id;       //parentNode이거랑 parentElement 차이가 
+
+            fetch(`http://localhost:3000/data/${targetId}`, {
+                method: "DELETE",
+            })
+            .then(response => response.json())
+            .then(() => 
+                event.target.parentNode.remove()
+            )
+        }
+    });
+}
+
+function createClearButton(selectDate) {
+    let s = selectDate.slice(-2);
+
+    const data = {
+        "todo": addValueInput.value,
+        "date": selectDate,
+        "bool": true
     }
+
+    fetch("http://localhost:3000/data", {
+        method: "POST",
+        body: JSON.stringify(data), // 전송할 데이터를 문자열로 변환
+        headers: {
+            "content-type": "application/json; charset=UTF-8;"
+        }
+    })
+    .then(response => response.json())
+    .then(() => {
+        document.querySelectorAll('.date').forEach(function(date) {
+            if(date.innerText === s && date.querySelector('.this')) {
+                date.querySelector('.this').style = "border-top: 4px solid #70947E; width: 43px; color: #70947E; margin-top: -4px;"
+            }
+            console.log("되는거니");
+        })
+        getData(selectDate);         // 매개 변수 date가 없어도 왜 되는거지?
+    })
+}
 
 function addTask() {
     if (addValueInput.value === "") {
-        alert("내용 입력 하삼");
+        alert("内容を入力してください");
     } else if (taskElements.length < 10) {
         createClearButton(selectDate);
     } else {
-        alert("10개 이하 등록해야함");
+        alert("タスクを10個まで登録できます");
         addValueInput.value = "";
     }
 }
