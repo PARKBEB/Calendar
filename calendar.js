@@ -1,5 +1,6 @@
-// 갖고 있는 문제 : todo list에 sum 정보를 불러오는 법을 몰라서 게이지에 문제가 생김 >  현재는 일단 데이터 정보를 저장하지않음
-// todo에서 삭제 눌러도 게이지 바에 반영되지않음 > 예) todo삭제해도 게이지바가 마이너스 되지않음
+// todo list에 sum 정보를 불러오는 법을 몰라서 게이지에 문제가 생김 >  현재는 일단 데이터 정보를 저장하지않음 
+// todo에서 삭제 눌러도 게이지 바에 반영되지않음 > 예) todo삭제해도 게이지바가 마이너스 되지않음 > 위와 비슷한 문제
+// 태스크 등록시 캘린더 날짜에 style변경함 하지만 새로고침하면 사라짐 > 캘린더가 랜더링될 떄 style이 사라짐 되야하는데 이게 안됨
 
 let calendar = document.querySelector('.calendar');
 let calMain = document.querySelector('.cal_main');
@@ -200,15 +201,20 @@ function getData(selectDate, date) {
         let a;
 
         // todo 있는날 표시
-        // if (json.length > 0) {
-        //     date.querySelector('.this').style = "border-top: 4px solid #70947E; width: 43px; color: #70947E;  margin-top: -4px;"
-        // } else 
-        if (json.length <= 0){
-            date.style = "";
-        }
+
+        if (json.length === 0){
+            document.querySelectorAll('.date').forEach(function(date) {
+                if(date.querySelector('.this')) {
+                    date.querySelector('.this').style = ""
+                }
+            });
+        } 
+        // else {
+        //     date.querySelector('.this').style = "border-top: 4px solid #70947E; width: 43px; color: #70947E;  margin-top: -4px;"  
+        // }
 
         if (hLength !== 0) {
-            a = Math.floor(766 / hLength);
+            a = Math.floor(762 / hLength);
         }
 
         let taskAll = document.querySelectorAll('.task');
@@ -217,7 +223,7 @@ function getData(selectDate, date) {
         taskAll.forEach(function(task) {
             task.addEventListener('click', function(event) {
                 let bool = event.target.dataset.bool
-                let taskID = event.target.parentNode.dataset.id
+                // let taskID = event.target.parentNode.dataset.id
 
                 if (bool === "false") {                 // 왜 false 일까나
                     task.style.color = "black";
@@ -308,7 +314,7 @@ function getData(selectDate, date) {
 }  
 
 function DeleteButton() {
-    taskList.addEventListener('click', function(event) {         
+    taskList.addEventListener('click', function(event) {  
         // fetch는 비동기 함수
         if (event.target.classList.contains('del_btn')) {
         let targetId = event.target.parentNode.dataset.id;       //parentNode이거랑 parentElement 차이가 
@@ -318,7 +324,8 @@ function DeleteButton() {
             })
             .then(response => response.json())
             .then(() => 
-                event.target.parentNode.remove()
+                event.target.parentNode.remove(),
+                getData(selectDate)
             )
         }
     });
@@ -346,7 +353,6 @@ function createClearButton(selectDate) {
             if(date.innerText === s && date.querySelector('.this')) {
                 date.querySelector('.this').style = "border-top: 4px solid #70947E; width: 43px; color: #70947E; margin-top: -4px;"
             }
-            console.log("되는거니");
         })
         getData(selectDate);         // 매개 변수 date가 없어도 왜 되는거지?
     })
